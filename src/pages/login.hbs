@@ -1,0 +1,21 @@
+---
+id: "login"
+---
+<html>
+<head>
+    <script src="../index.js" type="module"></script>
+</head>
+<body>
+<div id="{{ id }}">
+    <div class="login-form">
+        <header>Sign in</header>
+        <label class="text-muted">Username</label>
+        <input>
+        <label class="text-muted">Password</label>
+        <input>
+        <input value="Sign in" type="button" class="primary-button" onclick="location.href=`${location.origin}chats`">
+        <input onclick="location.href=`${location.origin}/register`" value="Create account" type="button" class="secondary-button">
+    </div>
+</div>
+</body>
+</html>

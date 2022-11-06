@@ -1,0 +1,29 @@
+---
+id: "register"
+data: {
+    first_name: 'First name',
+    second_name: 'Last name',
+    login: 'login',
+    email: 'Email',
+    phone: 'Phone',
+    password: 'Password'
+}
+---
+<html>
+<head>
+        <script src="../index.js" type="module"></script>
+</head>
+<body>
+    <div id="{{ id }}">
+        <div class="login-form">
+            <header>Create account</header>
+            {{#each data}}
+                <label class="text-muted">{{this}}</label>
+                <input>
+            {{/each}}
+            <input value="Register" type="button" class="primary-button" onclick="location.href=`${location.href}chats`">
+            <input onclick="location.href=`${location.origin}/register.html`" value="Sign in" type="button" class="secondary-button">
+        </div>
+    </div>
+</body>
+</html>
