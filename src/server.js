@@ -21,3 +21,35 @@ app.get('/', (req, res) => {
         path.join(__dirname + '../../dist/login.html')
     );
 })
+
+app.get('/chats', (req, res) => {
+    res.sendFile(
+        path.join(__dirname + '../../dist/chats.html')
+    );
+})
+
+app.get('/profile', (req, res) => {
+    res.sendFile(
+        path.join(__dirname + '../../dist/profile.html')
+    );
+})
+
+app.get('/login', (req, res) => {
+    res.sendFile(
+        path.join(__dirname + '../../dist/login.html')
+    );
+})
+
+app.get('/500', function(req, res){
+    res.sendFile(
+        path.join(__dirname + '../../dist/500.html')
+    );
+});
+
+app.get('*', function(req, res){
+    res.sendFile(
+        path.join(__dirname + '../../dist/404.html')
+    );
+});
+
+

@@ -5,19 +5,10 @@
   "scripts": {
     "dev": "parcel watch src/pages/*.hbs --no-cache",
     "build": "parcel build src/pages/*.hbs",
-    "start": "npm run build && node src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run build && node src/server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/valerr/middle.messenger.praktikum.yandex.git"
-  },
-  "author": "valerr",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/valerr/middle.messenger.praktikum.yandex/issues"
-  },
-  "homepage": "https://github.com/valerr/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "^1.0.9",
     "@parcel/transformer-sass": "^2.7.0",
@@ -26,5 +17,11 @@
   },
   "dependencies": {
     "handlebars": "^4.7.7"
+  },
+  "browserslist": [
+    "defaults and supports es6-module"
+  ],
+  "engines": {
+    "node": ">=16.11.0"
   }
 }
