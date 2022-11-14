@@ -1,21 +1,23 @@
 ---
-id: "login"
+id: "login-page"
 ---
 <html>
 <head>
     <script src="../index.js" type="module"></script>
 </head>
 <body>
-<div id="{{ id }}">
-    <div class="login-form">
-        <header>Sign in</header>
-        <label class="text-muted">Username</label>
-        <input>
-        <label class="text-muted">Password</label>
-        <input>
-        <input value="Sign in" type="button" class="primary-button" onclick="location.href=`${location.origin}/chats`">
-        <input onclick="location.href=`${location.origin}/register`" value="Create account" type="button" class="secondary-button">
-    </div>
-</div>
+    <main id="{{ id }}">
+        <div class="login-form">
+            <header>Sign in</header>
+            <form>
+                <label class="text-muted" for="login">Username</label>
+                <input type="text" name="login">
+                <label class="text-muted" for="password">Password</label>
+                <input type="text" name="password" id="password">
+                <button type="button" class="primary-button" onclick="location.href=`${location.origin}/chats`">Sign in</button>
+                <button onclick="location.href=`${location.origin}/register`" type="button" class="secondary-button">Create account</button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>

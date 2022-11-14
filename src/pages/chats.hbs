@@ -16,23 +16,23 @@ chats: {
     <script src="../index.js" type="module"></script>
 </head>
 <body>
-<div id="{{ id }}">
-    <div class="chats-list">
-        <button onclick="location.href=`${location.origin}/profile`" class="secondary-button profile-button text-muted">Profile</button>
-        <div class="search">Search</div>
-        {{#each chats}}
-            <div class="chat-item">
-                <div class="chat-item-text">
-                    <span class="fw-bold">{{this.name}}</span>
-                    <div class="text-overflow text-muted">{{this.messages}}</div>
+    <main id="{{ id }}">
+        <div class="chats-list">
+            <button onclick="location.href=`${location.origin}/profile`" class="secondary-button profile-button text-muted">Profile</button>
+            <div class="search">Search</div>
+            {{#each chats}}
+                <div class="chat-item">
+                    <div class="chat-item-text">
+                        <span class="fw-bold">{{this.name}}</span>
+                        <div class="text-overflow text-muted">{{this.messages}}</div>
+                    </div>
                 </div>
-            </div>
-        {{/each}}
+            {{/each}}
 
-    </div>
-    <div class="chat-content">
-        <span class="text-muted m-auto">Select chat to start messaging</span>
-    </div>
-</div>
+        </div>
+        <div class="chat-content">
+            <span class="text-muted m-auto">Select chat to start messaging</span>
+        </div>
+    </main>
 </body>
 </html>

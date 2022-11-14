@@ -7,12 +7,17 @@ body {
   margin: 0;
 }
 
+main.pages {
+  height: 100%;
+  display: flex;
+}
+
 button, input {
   border: unset;
   background: unset;
 }
 
-#login, #register, #chats, #profile {
+#login-page, #register, #chats, #profile {
   display: flex;
   height: 100%;
   width: 100%;
@@ -33,6 +38,13 @@ button, input {
   margin: auto;
   padding: 30px;
   box-sizing: border-box;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+  }
 
   header {
     font-weight: bold;
