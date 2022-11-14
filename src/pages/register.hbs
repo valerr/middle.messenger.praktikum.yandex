@@ -14,16 +14,19 @@ data: {
         <script src="../index.js" type="module"></script>
 </head>
 <body>
-    <div id="{{ id }}">
+    <main id="{{ id }}">
         <div class="login-form">
             <header>Create account</header>
-            {{#each data}}
-                <label class="text-muted">{{this}}</label>
-                <input>
-            {{/each}}
-            <input value="Register" type="button" class="primary-button" onclick="location.href=`${location.origin}/chats`">
-            <input onclick="location.href=`${location.origin}/login`" value="Sign in" type="button" class="secondary-button">
+            <form>
+                {{#each data}}
+                    <label for="{{@key}}" class="text-muted">{{this}}</label>
+                    <input type="text" name="{{@key}}" id="{{@key}}">
+                {{/each}}
+                <button type="button" class="primary-button" onclick="location.href=`${location.origin}/chats`">Register</button>
+                <button type="button" onclick="location.href=`${location.origin}/login`" class="secondary-button">Sign in</button>
+            </form>
+
         </div>
-    </div>
+    </main>
 </body>
 </html>
