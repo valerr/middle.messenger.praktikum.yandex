@@ -9,8 +9,3 @@ Netlify: https://messenger-praktikum-valerr.netlify.app/
 - `npm start`
 ### Сборка
 - `npm run build`
-
-#### Чтобы запустить проект локально:
-- `npm install`
-- `npm run start`
-- Открыть http://localhost:3000/
