@@ -1,12 +1,21 @@
 import './styles/style.scss';
-import LoginPage from './pages/Login/LoginPage';
+import Login from './pages/Login/Login';
+import MainPage from './pages/Main/MainPage';
+import Profile from "./pages/Profile/Profile";
+import Register from "./pages/Register/Register";
+import { Page404, Page500 } from "./pages/Error/error";
 
 const pages = {
-    '/login': () => LoginPage,
+    '/': () => MainPage,
+    '/login': () => Login,
+    '/profile': () => Profile,
+    '/register': () => Register,
+    '/404': () => Page404,
+    '/500': () => Page500,
 }
 
 const location = window.location.pathname;
-const app = document.querySelector('#app');
+const app = document.querySelector('body');
 
 document.addEventListener('DOMContentLoaded', () => {
     const page = pages[location]()

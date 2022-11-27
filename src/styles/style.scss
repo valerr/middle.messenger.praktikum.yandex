@@ -7,9 +7,10 @@ body {
   margin: 0;
 }
 
-main.pages {
+.pages {
   height: 100%;
   display: flex;
+  width: 100%;
 }
 
 button, input {
@@ -41,9 +42,10 @@ button, input {
 
   form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
     flex-grow: 1;
+    flex-wrap: wrap;
   }
 
   header {
@@ -54,7 +56,14 @@ button, input {
 
   label {
     font-size: 9px;
-    margin-top: 16px;
+    margin-top: 22px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+  }
+
+  .login-inputs {
+    flex: 1;
   }
 
   .primary-button {
@@ -73,6 +82,23 @@ button, input {
 
   input {
     border-bottom: 1px solid $primary;
+    margin-top: 9px;
+    margin-left: 28px;
+    &:first-child {
+      margin-top: 18px;
+    }
+  }
+
+  .error-message {
+    visibility: hidden;
+    color: $danger;
+    font-size: 10px;
+    margin-left: 30px;
+    min-height: 25px;
+    display: block;
+    &.show {
+      visibility: visible;
+    }
   }
 }
 

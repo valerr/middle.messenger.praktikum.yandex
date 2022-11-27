@@ -17,7 +17,8 @@
     "parcel-transformer-hbs": "^1.0.4"
   },
   "dependencies": {
-    "express": "4.18.2"
+    "express": "4.18.2",
+    "uuid": "^9.0.0"
   },
   "browserslist": [
     "defaults and supports es6-module"

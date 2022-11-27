@@ -1,4 +1,4 @@
-export default `<main id="login-page">
+export default `<div id="login-page">
         <div class="login-form">
             <header>Sign in</header>
             <form>
@@ -10,4 +10,4 @@ export default `<main id="login-page">
                     {{{ registerButton }}}
             </form>
         </div>
-    </main>`
+    </div>`

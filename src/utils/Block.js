@@ -1,5 +1,6 @@
 import EventBus from "./EventBus";
 import HandleBars from 'handlebars';
+import { v4 as uuid } from "uuid";
 
 export default class Block {
     static EVENTS = {
@@ -28,6 +29,8 @@ export default class Block {
             props
         };
 
+        this.id = uuid();
+
         this.props = this._makePropsProxy(props);
         this.children = this._makePropsProxy(children);
 
@@ -35,6 +38,7 @@ export default class Block {
 
         this._registerEvents(eventBus);
         eventBus.emit(Block.EVENTS.INIT);
+
     }
 
     _registerEvents(eventBus) {
@@ -51,7 +55,9 @@ export default class Block {
 
     _getChildren(propsAndChildren) {
         return Object.entries(propsAndChildren).reduce((acc, [key, value]) => {
-            if (value instanceof Block) {
+            if (value instanceof Block ||
+                (Array.isArray(value) &&
+                    value.every((item) => item instanceof Block))) {
                 acc.children[key] = value;
             } else {
                 acc.props[key] = value;
@@ -118,13 +124,17 @@ export default class Block {
         const propsAndStubs = { ...props };
 
         Object.entries(this.children).forEach(([key, child]) => {
-            propsAndStubs[key] = `<div data-id="id-${child.id}"></div>`;
+            if (Array.isArray(child)) {
+                propsAndStubs[key] = child.map(item => `<div data-id="${item.id}"></div>`)
+                return
+            }
+            propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
         });
 
         const fragment = document.createElement("template");
         fragment.innerHTML = HandleBars.compile(template)(propsAndStubs);
-        Object.values(this.children).forEach((child) => {
-            const stub = fragment.content.querySelector(`[data-id="id-${child.id}"]`);
+        Object.values(this.children).flat().forEach((child) => {
+            const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
             stub && stub.replaceWith(child.getContent());
         });
         return fragment.content;
