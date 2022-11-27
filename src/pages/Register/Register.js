@@ -22,6 +22,16 @@ const errorMessages = {
     'password':'Must be 8-40 characters, contain at least 1 uppercase letter, 1 digit character',
 };
 
+const onFocusBlur = (key, target) => {
+    const check = validate(key, target.value);
+    if (!check) {
+        target.nextElementSibling.classList.add('show')
+        target.nextElementSibling.textContent = errorMessages[key]
+    } else {
+        target.nextElementSibling.classList.remove('show')
+    }
+}
+
 const Register = new Page({
     template,
     registerButton: new Button({
@@ -50,22 +60,10 @@ const Register = new Page({
         name: key,
         events : {
             'blur': ({ target }) => {
-                const check = validate(key, target.value); // TODO in utils
-                if (!check) {
-                    target.nextElementSibling.classList.add('show')
-                    target.nextElementSibling.textContent = errorMessages[key]
-                } else {
-                    target.nextElementSibling.classList.remove('show')
-                }
+                onFocusBlur(key, target);
             },
             'focus': ({ target }) => {
-                const check = validate(key, target.value);
-                if (!check) {
-                    target.nextElementSibling.classList.add('show')
-                    target.nextElementSibling.textContent = errorMessages[key]
-                } else {
-                    target.nextElementSibling.classList.remove('show')
-                }
+                onFocusBlur(key, target);
             },
         }
     })),

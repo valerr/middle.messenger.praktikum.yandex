@@ -18,6 +18,10 @@ button, input {
   background: unset;
 }
 
+button {
+  cursor: pointer;
+}
+
 #login-page, #register, #chats, #profile {
   display: flex;
   height: 100%;
@@ -106,8 +110,13 @@ button, input {
   flex-direction: row;
   height: 100%;
 
+  .chat-container {
+    width: 100%;
+  }
+
   .chats-list {
     min-width: 310px;
+    max-width: 310px;
     border-right: 1px solid $border-color;
     flex: 1;
 
@@ -168,9 +177,63 @@ button, input {
   }
 
   .chat-content {
-    flex: 2;
     display: flex;
-    margin: auto;
+    flex-direction: column;
+    height: 100%;
+    .header {
+      display: flex;
+      height: 54px;
+      border-bottom: 1px solid $border-color;
+      align-items: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+  }
+
+  .messages {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    .message {
+      max-width: 500px;
+      background: #F8F8F8;
+      margin: 5px;
+      border-radius: 5%;
+      padding: 10px;
+    }
+
+    .message:first-child {
+      margin-top: auto;
+    }
+  }
+
+  .message-input {
+    height: 54px;
+    display: flex;
+    border-top: 1px solid $border-color;
+    padding: 10px;
+    box-sizing: border-box;
+    input {
+      flex-grow: 1;
+    }
+
+    button {
+      background: $primary;
+      border-radius: 50%;
+      height: 28px;
+      width: 28px;
+      align-self: center;
+      &:before {
+        content: '';
+        display: flex;
+        margin: auto;
+        width: 13px;
+        height: 12px;
+        transform: rotate(180deg);
+        background-image: url("data:image/svg+xml,%3Csvg width='13' height='12' viewBox='0 0 13 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='13' y='6.80005' width='11' height='1.6' transform='rotate(-180 13 6.80005)' fill='white'/%3E%3Cpath d='M6 11L2 6L6 1' stroke='white' stroke-width='1.6'/%3E%3C/svg%3E");
+      }
+    }
   }
 }
 
@@ -247,7 +310,6 @@ button, input {
   display: flex;
 
   button {
-    color: $primary;
     margin-top: 50px;
     align-self: center;
   }

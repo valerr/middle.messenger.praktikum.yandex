@@ -4,6 +4,7 @@ import MainPage from './pages/Main/MainPage';
 import Profile from "./pages/Profile/Profile";
 import Register from "./pages/Register/Register";
 import { Page404, Page500 } from "./pages/Error/error";
+import Chats from "./pages/Chats/Chats";
 
 const pages = {
     '/': () => MainPage,
@@ -12,6 +13,7 @@ const pages = {
     '/register': () => Register,
     '/404': () => Page404,
     '/500': () => Page500,
+    '/chats': () => Chats,
 }
 
 const location = window.location.pathname;
