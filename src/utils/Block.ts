@@ -14,13 +14,13 @@ export default abstract class Block<P extends Props = any> {
         FLOW_RENDER: "flow:render"
     };
     protected props: P;
-    private _element: HTMLElement | null;
+    private _element: HTMLElement;
     private _meta: { tagName: string; props: P };
     children: Children | null;
     public id;
     private eventBus: () => EventBus;
 
-    constructor(tagName:string = "div", propsAndChildren: P) {
+    constructor(tagName = "div", propsAndChildren: P) {
         const { props, children } = this._getChildren(propsAndChildren);
         const eventBus = new EventBus();
 
@@ -87,7 +87,7 @@ export default abstract class Block<P extends Props = any> {
     }
 
     componentDidUpdate(_oldProps: P, _newProps: P) {
-        return true;
+        return _oldProps !== _newProps;
     }
 
     setProps = (nextProps: P) => {
@@ -138,7 +138,7 @@ export default abstract class Block<P extends Props = any> {
         return fragment.content;
     }
 
-    getContent() {
+    getContent(): HTMLElement {
         return this.element;
     }
 

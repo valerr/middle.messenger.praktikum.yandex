@@ -1,3 +1,4 @@
+/* eslint  @typescript-eslint/no-var-requires: 0 */
 const express = require('express');
 const path = require('path');
 

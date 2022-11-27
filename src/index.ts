@@ -5,8 +5,9 @@ import Profile from "./pages/Profile/Profile";
 import Register from "./pages/Register/Register";
 import { Page404, Page500 } from "./pages/Error/error";
 import Chats from "./pages/Chats/Chats";
+import Block from "./utils/Block";
 
-const pages: Record<string, any> = {
+const pages: Record<string, () => Block> = {
     '/': () => MainPage,
     '/login': () => Login,
     '/profile': () => Profile,

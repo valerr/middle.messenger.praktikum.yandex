@@ -5,7 +5,7 @@ interface Props {
     className?: string,
     type?: string,
     text?: string,
-    events?: Record<string, Function>
+    events?: Record<string, (arg: Event) => void>
 }
 
 export default class Button extends Block<Props> {

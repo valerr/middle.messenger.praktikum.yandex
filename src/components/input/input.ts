@@ -5,7 +5,7 @@ interface Props {
     name: string,
     className?: string,
     id: string,
-    events: Record<string, Function>
+    events: Record<string, (arg: Event) => void>
 }
 
 export default class Input extends Block {

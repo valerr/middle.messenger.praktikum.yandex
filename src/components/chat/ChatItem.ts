@@ -5,7 +5,7 @@ interface Props {
     name: string,
     className?: string,
     message: string,
-    events?: Record<string, () => {}>
+    events?: Record<string, () => void>
 }
 
 export default class ChatItem extends Block {
