@@ -15,6 +15,7 @@ const chats = [
     }
 ]
 
+
 const Chats = new Page({
     template,
     ProfileButton: new Button({
@@ -27,11 +28,6 @@ const Chats = new Page({
     ChatItems: chats.map(item => new ChatItem({
         name: item.name,
         message: item.message,
-        events: {
-            'click': () => {
-
-            }
-        }
     })),
     chat: new Chat({
         className: 'chat-container',
@@ -43,7 +39,6 @@ const Chats = new Page({
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'
         ]
     })
-
 })
 
 export default Chats;

@@ -13,7 +13,7 @@ const data = {
     password: 'Password'
 }
 
-const errorMessages = {
+const errorMessages: Record<string, string> = {
     'first_name': 'Please enter a valid name',
     'second_name': 'Please enter a last name',
     'login':'Must contain 3-40 characters: no special characters',
@@ -22,13 +22,13 @@ const errorMessages = {
     'password':'Must be 8-40 characters, contain at least 1 uppercase letter, 1 digit character',
 };
 
-const onFocusBlur = (key, target) => {
+const onFocusBlur = (key: string, target: HTMLInputElement) => {
     const check = validate(key, target.value);
     if (!check) {
-        target.nextElementSibling.classList.add('show')
-        target.nextElementSibling.textContent = errorMessages[key]
+        target.nextElementSibling!.classList.add('show')
+        target.nextElementSibling!.textContent = errorMessages[key]
     } else {
-        target.nextElementSibling.classList.remove('show')
+        target.nextElementSibling!.classList.remove('show')
     }
 }
 
@@ -38,11 +38,12 @@ const Register = new Page({
         text: 'Register',
         className: 'primary-button',
         events: {
-            'click': (event) => {
+            'click': (event: Event) => {
                 event.preventDefault();
                 const inputs = document.querySelectorAll('input');
                 const valid = [...inputs].every(elem => validate(elem.name, elem.value))
-                console.log(Object.fromEntries(new FormData(event.target.form)))
+                // @ts-ignore
+                console.log(Object.fromEntries(new FormData(event.target!.form)))
                 if (valid) location.href=`${location.origin}/login`
             }
         }
@@ -59,11 +60,11 @@ const Register = new Page({
         id: key,
         name: key,
         events : {
-            'blur': ({ target }) => {
-                onFocusBlur(key, target);
+            'blur': ({ target }: Event) => {
+                onFocusBlur(key, target as HTMLInputElement);
             },
-            'focus': ({ target }) => {
-                onFocusBlur(key, target);
+            'focus': ({ target }: Event) => {
+                onFocusBlur(key, target as HTMLInputElement);
             },
         }
     })),

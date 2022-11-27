@@ -6,7 +6,7 @@ import Register from "./pages/Register/Register";
 import { Page404, Page500 } from "./pages/Error/error";
 import Chats from "./pages/Chats/Chats";
 
-const pages = {
+const pages: Record<string, any> = {
     '/': () => MainPage,
     '/login': () => Login,
     '/profile': () => Profile,
@@ -20,7 +20,7 @@ const location = window.location.pathname;
 const app = document.querySelector('body');
 
 document.addEventListener('DOMContentLoaded', () => {
-    const page = pages[location]()
-    app.appendChild(page.getContent());
+    const page = pages[location]();
+    app!.appendChild(page.getContent());
     page.dispatchComponentDidMount();
 })

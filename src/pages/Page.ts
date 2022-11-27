@@ -1,9 +1,11 @@
 import Block from "../utils/Block";
 
+type Props = Record <string, any>
+
 export default class Page extends Block {
-    constructor(props) {
+    constructor(props: Props) {
         super('main', props);
-        this.element.className = props.className;
+        this.element!.className = props.className;
     }
 
     render() {
