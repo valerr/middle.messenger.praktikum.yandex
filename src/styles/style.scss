@@ -64,7 +64,7 @@ button {
 
   label {
     font-size: 9px;
-    margin-top: 22px;
+    margin-top: 21px;
     min-height: 32px;
     display: flex;
     align-items: center;
@@ -90,11 +90,11 @@ button {
 
   input {
     border-bottom: 1px solid $primary;
-    margin-top: 9px;
+    margin-top: 10px;
     margin-left: 28px;
 
     &:first-child {
-      margin-top: 18px;
+      margin-top: 29px;
     }
   }
 }
@@ -336,7 +336,7 @@ input + .error-message {
 
     .error-message {
       margin-left: 0;
-      max-width: 198px;
+      max-width: 170px;
     }
 
     & .info-item {
