@@ -16,7 +16,6 @@ export default `<div id="profile">
                 </div>
                 <div class="actions">
                     {{{ ChangeProfileButton }}}
-                    <button>Change password</button>
                     {{{ logOutButton }}}
                 </div>
             </div>

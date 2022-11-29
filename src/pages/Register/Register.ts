@@ -31,7 +31,7 @@ const Register = new Page({
 
     }),
     signInButton: new Button({
-        text: 'Create account',
+        text: 'Sign in',
         className: 'secondary-button',
         events: {
             'click': () => location.href=`${location.origin}/login`,
