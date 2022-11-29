@@ -12,12 +12,28 @@
   white-space: nowrap;
 }
 
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
 .m-auto {
   margin: auto;
 }
 
 .mt-auto {
   margin-top: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
 }
 
 .text-center {

@@ -97,18 +97,18 @@ button {
       margin-top: 18px;
     }
   }
+}
 
-  .error-message {
-    visibility: hidden;
-    color: $danger;
-    font-size: 10px;
-    margin-left: 30px;
-    min-height: 25px;
-    display: block;
+input + .error-message {
+  visibility: hidden;
+  color: $danger;
+  font-size: 10px;
+  margin-left: 30px;
+  min-height: 25px;
+  display: block;
 
-    &.show {
-      visibility: visible;
-    }
+  &.show {
+    visibility: visible;
   }
 }
 
@@ -330,12 +330,26 @@ button {
       margin-top: 60px;
     }
 
-    .info-item {
-      border-bottom: 1px solid $border-color;
+    input {
+      border-bottom: 1px solid $primary;
+    }
+
+    .error-message {
+      margin-left: 0;
+      max-width: 198px;
+    }
+
+    & .info-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 33px;
+      height: 40px;
+    }
+
+    .profile-info.editing {
+      .info-item {
+        align-items: baseline;
+      }
     }
 
     .actions {

@@ -2,7 +2,7 @@ import Page from "../Page";
 import Button from "../../components/button/Button";
 import template from './register.tmpl';
 import Input from "../../components/input/input";
-import {validate} from "../../utils/validate";
+import {validate, validateInputElement} from "../../utils/validate";
 
 const data = {
     first_name: 'First name',
@@ -11,25 +11,6 @@ const data = {
     email: 'Email',
     phone: 'Phone',
     password: 'Password'
-}
-
-const errorMessages: Record<string, string> = {
-    'first_name': 'Please enter a valid name',
-    'second_name': 'Please enter a last name',
-    'login':'Must contain 3-40 characters: no special characters',
-    'email':'Please enter a valid email',
-    'phone':'Invalid format',
-    'password':'Must be 8-40 characters, contain at least 1 uppercase letter, 1 digit character',
-};
-
-const onFocusBlur = (key: string, target: HTMLInputElement) => {
-    const check = validate(key, target.value);
-    if (!check) {
-        target.nextElementSibling!.classList.add('show')
-        target.nextElementSibling!.textContent = errorMessages[key]
-    } else {
-        target.nextElementSibling!.classList.remove('show')
-    }
 }
 
 const Register = new Page({
@@ -61,15 +42,14 @@ const Register = new Page({
         name: key,
         events : {
             'blur': ({ target }: Event) => {
-                onFocusBlur(key, target as HTMLInputElement);
+                validateInputElement(key, target as HTMLInputElement);
             },
             'focus': ({ target }: Event) => {
-                onFocusBlur(key, target as HTMLInputElement);
+                validateInputElement(key, target as HTMLInputElement);
             },
         }
     })),
     data,
-    errorMessages
 })
 
 export default Register;

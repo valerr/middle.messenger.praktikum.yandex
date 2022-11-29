@@ -5,5 +5,4 @@ Netlify: https://messenger-praktikum-valerr.netlify.app/
 
 ### Start app
 - `npm install`
-- `npm start`
-
+- `npm run start`
