@@ -44,7 +44,6 @@ button {
   width: 340px;
   border-radius: 12px;
   align-self: center;
-  box-shadow: 0 0 6px #00000024;
   margin: auto;
   padding: 30px;
   box-sizing: border-box;
@@ -99,6 +98,15 @@ button {
   }
 }
 
+#register .login-form,
+#login-page .login-form {
+  box-shadow: 0 0 6px #00000024;
+}
+
+.change-profile {
+  @extend .login-form; /* stylelint-disable-line */
+}
+
 input + .error-message {
   visibility: hidden;
   color: $danger;
@@ -119,8 +127,7 @@ input + .error-message {
 #login-page {
   .login-form {
     label {
-      min-height: unset;
-      margin-top: 0;
+      height: 50px;
     }
 
     input {
@@ -335,7 +342,7 @@ input + .error-message {
     }
 
     .error-message {
-      margin-left: 0;
+      margin-left: 28px;
       max-width: 170px;
     }
 

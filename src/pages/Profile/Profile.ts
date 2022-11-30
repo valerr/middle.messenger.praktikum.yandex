@@ -3,8 +3,10 @@ import Button from "../../components/button/Button";
 import template from './profile.tmpl';
 import renderBlock from "../../utils/renderBlock";
 import ChangeProfile from "../../components/profile/ChangeProfile";
-import {validateInputElement} from "../../utils/validate";
-
+import {validate, validateInputElement} from "../../utils/validate";
+import Form from "../../components/form/form";
+import Input from "../../components/input/input";
+import { fields } from "../Register/Register";
 
 const info = {
     first_name: {
@@ -15,43 +17,62 @@ const info = {
     second_name: {
         key: 'Last name',
         name: 'second_name',
-            value: 'Lastname'
+        value: 'Lastname'
     },
     display_name: {
         key: 'Display name',
         name: 'display_name',
-            value: 'Name'
+        value: 'Name'
     },
     login: {
         key: 'Login',
         name: 'login',
-            value: '@login'
+        value: '@login'
     },
     email: {
         key: 'Email',
         name: 'email',
-            value: 'email@mail.mail'
+        value: 'email@mail.mail'
     },
     phone: {
         key: 'Phone',
         name: 'phone',
-            value: '123456789'
+        value: '123456789'
     },
 }
 
 const changeProfile = new ChangeProfile({
-    events: {
-      'input': (event: Event) => validateInputElement((event.target as HTMLInputElement)!.name, event.target as HTMLInputElement),
-    },
-    info: {
-        ...info,
-        password: {
-            key: 'Password',
-            name: 'password',
+    className: 'change-profile',
+    form: new Form({
+        fields,
+        events: {
+            'submit': (event: Event) => {
+                event.preventDefault();
+                const data = new FormData(event.target as HTMLFormElement);
+                console.log(Object.fromEntries(data));
+
+                const inputs = document.querySelectorAll('input');
+                const valid = [...inputs].every(elem => validate(elem.name, elem.value));
+                console.log('valid:', valid);
+            },
         },
-    },
-    SaveButton: new Button({
-        text: 'Save',
+        inputs: Object.keys(fields).map(key => new Input({
+            id: key,
+            name: key,
+            events : {
+                'blur': ({ target }: Event) => {
+                    validateInputElement(key, target as HTMLInputElement);
+                },
+                'focus': ({ target }: Event) => {
+                    validateInputElement(key, target as HTMLInputElement);
+                },
+            }
+        })),
+        submitButton: new Button({
+            text: 'Save',
+            className: 'primary-button',
+            type: 'submit',
+        }),
     })
 })
 
