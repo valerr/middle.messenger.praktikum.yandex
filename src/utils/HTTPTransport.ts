@@ -17,17 +17,19 @@ interface Options {
     timeout: number,
 }
 
+type HTTPMethod = (url: string, options?: Options, timeout?: number) => Promise<XMLHttpRequest | Response>
+
 export default class HTTPTransport {
-    get = (url: string, options: Options): Promise<XMLHttpRequest | Response> => {
+    get: HTTPMethod = (url: string, options: Options) => {
         return this.request(url, {...options, method: METHODS.get}, options.timeout);
     };
-    put = (url: string, options: Options): Promise<XMLHttpRequest | Response> => {
+    put: HTTPMethod = (url: string, options: Options) => {
         return this.request(url, {...options, method: METHODS.put}, options.timeout);
     };
-    post = (url: string, options: Options): Promise<XMLHttpRequest | Response> => {
+    post: HTTPMethod = (url: string, options: Options): Promise<XMLHttpRequest | Response> => {
         return this.request(url, {...options, method: METHODS.post}, options.timeout);
     };
-    delete = (url: string, options: Options): Promise<XMLHttpRequest | Response> => {
+    delete: HTTPMethod = (url: string, options: Options): Promise<XMLHttpRequest | Response> => {
         return this.request(url, {...options, method: METHODS.delete}, options.timeout);
     };
 

@@ -7,7 +7,7 @@ interface Props {
     messages: Array<string>
 }
 
-export default class Chat extends Block {
+export default class Chat extends Block<Props> {
     constructor(props: Props) {
         super('div', props);
         this.element!.className = props.className;

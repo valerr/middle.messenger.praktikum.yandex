@@ -12,7 +12,7 @@ export default abstract class Block<P extends Props = any> {
         FLOW_CDM: "flow:component-did-mount",
         FLOW_CDU: "flow:component-did-update",
         FLOW_RENDER: "flow:render"
-    };
+    } as const;
     protected props: P;
     private _element: HTMLElement;
     private _meta: { tagName: string; props: P };
@@ -105,6 +105,11 @@ export default abstract class Block<P extends Props = any> {
     _render() {
         const block = this.render();
         this.element?.append(block);
+
+        if (this._element) {
+            this.removeEvents();
+        }
+
         this.addEvents();
     }
 
@@ -115,6 +120,12 @@ export default abstract class Block<P extends Props = any> {
     addEvents() {
         this.props.events && Object.keys(this.props.events).forEach((eventName) => {
             this._element?.addEventListener(eventName, this.props.events[eventName]);
+        })
+    }
+
+    removeEvents() {
+        this.props.events && Object.keys(this.props.events).forEach(eventName => {
+            this._element.removeEventListener(eventName, this.props.events[eventName]);
         })
     }
 

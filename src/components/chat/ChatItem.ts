@@ -8,7 +8,7 @@ interface Props {
     events?: Record<string, () => void>
 }
 
-export default class ChatItem extends Block {
+export default class ChatItem extends Block<Props> {
     constructor(props: Props) {
         super('div', props);
     }

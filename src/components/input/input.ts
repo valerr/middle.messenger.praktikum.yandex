@@ -8,7 +8,7 @@ interface Props {
     events: Record<string, (arg: Event) => void>
 }
 
-export default class Input extends Block {
+export default class Input extends Block<Props> {
     constructor(props: Props) {
         super('input', props);
         this.element!.id = props.id;
