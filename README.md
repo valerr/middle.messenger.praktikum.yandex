@@ -3,14 +3,6 @@ Figma: https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node
 
 Netlify: https://messenger-praktikum-valerr.netlify.app/
 
-### Установка
-- `npm install`
-### Запуск
-- `npm start`
-### Сборка
-- `npm run build`
-
-#### Чтобы запустить проект локально:
+### Start app
 - `npm install`
 - `npm run start`
-- Открыть http://localhost:3000/

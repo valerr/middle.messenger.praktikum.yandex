@@ -1,9 +1,4 @@
-<html>
-<head>
-    <script src="../index.js" type="module"></script>
-</head>
-<body>
-    <main class="pages">
+export default `<div class="pages">
         <div class="m-auto">
             <h1>Pages:</h1>
             <nav>
@@ -29,6 +24,4 @@
                 </ul>
             </nav>
         </div>
-    </main>
-</body>
-</html>
+    </div>`
