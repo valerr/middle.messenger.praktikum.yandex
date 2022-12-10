@@ -4,6 +4,8 @@ import template from './login.tmpl';
 import Form from "../../components/form/form";
 import {validate, validateInputElement} from "../../utils/validate";
 import Input from "../../components/input/input";
+import ButtonLink from "../../components/button/ButtonLink";
+import Router from "../../utils/Router";
 
 export const fields = {
     login: 'Login',
@@ -12,12 +14,10 @@ export const fields = {
 
 const Login = new Page({
     template,
-    registerButton: new Button({
+    registerButton: new ButtonLink({
         text: 'Create account',
         className: 'secondary-button',
-        events: {
-            'click': () => location.href=`${location.origin}/register`,
-        }
+        path: '/register',
     }),
     form: new Form({
         fields,
@@ -29,7 +29,7 @@ const Login = new Page({
 
                 const inputs = document.querySelectorAll('input');
                 const valid = [...inputs].every(elem => validate(elem.name, elem.value));
-                if (valid) location.href=`${location.origin}/chats`
+                if (valid) Router.go('/chats')
             },
         },
         inputs: Object.keys(fields).map(key => new Input({

@@ -5,6 +5,9 @@
     "noUnusedParameters": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "es2019"
+    "target": "es2019",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true
   }
 }

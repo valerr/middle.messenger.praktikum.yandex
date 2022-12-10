@@ -4,6 +4,8 @@ import template from './register.tmpl';
 import Input from "../../components/input/input";
 import {validate, validateInputElement} from "../../utils/validate";
 import Form from "../../components/form/form";
+import Router from "../../utils/Router";
+import ButtonLink from "../../components/button/ButtonLink";
 
 export const fields = {
     first_name: 'First name',
@@ -24,9 +26,9 @@ const Register = new Page({
               const data = new FormData(event.target as HTMLFormElement);
               console.log(Object.fromEntries(data));
 
-              const inputs = document.querySelectorAll('input');
-              const valid = [...inputs].every(elem => validate(elem.name, elem.value));
-              if (valid) location.href=`${location.origin}/login`
+              const inputs = document.querySelectorAll('.login-form input');
+              const valid = [...inputs].every((elem: HTMLInputElement) => validate(elem.name, elem.value));
+              if (valid) Router.go('/chats')
           },
         },
         inputs: Object.keys(fields).map(key => new Input({
@@ -47,12 +49,10 @@ const Register = new Page({
             type: 'submit',
         }),
     }),
-    signInButton: new Button({
+    signInButton: new ButtonLink({
         text: 'Sign in',
         className: 'secondary-button',
-        events: {
-            'click': () => location.href=`${location.origin}/login`,
-        }
+        path: '/login'
     }),
 })
 

@@ -1,8 +1,8 @@
 import Page from "../Page";
-import Button from "../../components/button/Button";
 import template from './chats.tmpl';
 import ChatItem from "../../components/chat/ChatItem";
 import Chat from "../../components/chat/Chat";
+import ButtonLink from "../../components/button/ButtonLink";
 
 const chats = [
     {
@@ -18,12 +18,10 @@ const chats = [
 
 const Chats = new Page({
     template,
-    ProfileButton: new Button({
+    ProfileButton: new ButtonLink({
         text: 'Profile',
         className: 'secondary-button profile-button text-muted',
-        events: {
-            'click': () => location.href=`${location.origin}/profile`
-        },
+        path: '/profile'
     }),
     ChatItems: chats.map(item => new ChatItem({
         name: item.name,

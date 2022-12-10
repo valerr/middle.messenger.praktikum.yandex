@@ -1,12 +1,12 @@
 import Page from "../Page";
 import Button from "../../components/button/Button";
 import template from './profile.tmpl';
-import renderBlock from "../../utils/renderBlock";
 import ChangeProfile from "../../components/profile/ChangeProfile";
 import {validate, validateInputElement} from "../../utils/validate";
 import Form from "../../components/form/form";
 import Input from "../../components/input/input";
 import { fields } from "../Register/Register";
+import ButtonLink from "../../components/button/ButtonLink";
 
 const info = {
     first_name: {
@@ -41,7 +41,7 @@ const info = {
     },
 }
 
-const changeProfile = new ChangeProfile({
+export const changeProfile = new ChangeProfile({
     className: 'change-profile',
     form: new Form({
         fields,
@@ -73,30 +73,27 @@ const changeProfile = new ChangeProfile({
             className: 'primary-button',
             type: 'submit',
         }),
+    }),
+    chatsButton: new ButtonLink({
+        className: 'back-button',
+        path: '/chats'
     })
 })
 
 const Profile = new Page({
     template,
-    chatsButton: new Button({
+    chatsButton: new ButtonLink({
         className: 'back-button',
-        events: {
-            'click': () => location.href=`${location.origin}/chats`,
-        }
+        path: '/chats'
     }),
-    logOutButton: new Button({
+    logOutButton: new ButtonLink({
         text: 'Log out',
-        events: {
-            'click': () => location.href=`${location.origin}/login`,
-        }
+        path: '/login'
     }),
-    ChangeProfileButton: new Button({
+    ChangeProfileButton: new ButtonLink({
         text: 'Edit profile',
-        events: {
-            'click': () => {
-                renderBlock(changeProfile, '.profile-editable');
-            },
-        }
+        className: 'profile-editing',
+        path: '/settings'
     }),
     info,
     name: 'Name',

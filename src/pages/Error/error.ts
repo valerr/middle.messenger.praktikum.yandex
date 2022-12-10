@@ -1,16 +1,14 @@
 import Page from "../Page";
-import Button from "../../components/button/Button";
 import template from './error.tmpl';
+import ButtonLink from "../../components/button/ButtonLink";
 
 export const Page404 = new Page({
     template,
     code: '404',
     message: "Something went wrong",
-    BackButton: new Button({
+    BackButton: new ButtonLink({
         text: 'Back to chats',
-        events: {
-            'click': () => location.href=`${location.origin}/chats`,
-        }
+        path: '/chats'
     })
 })
 
@@ -18,10 +16,8 @@ export const Page500 = new Page({
     template,
     code: '500',
     message: "Internal Server Error",
-    BackButton: new Button({
+    BackButton: new ButtonLink({
         text: 'Back to chats',
-        events: {
-            'click': () => location.href=`${location.origin}/chats`,
-        }
+        path: '/chats'
     })
 })

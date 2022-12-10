@@ -8,7 +8,7 @@ interface Props {
     events?: Record<string, (arg: Event) => void>,
     fields: Record<string, string>,
     inputs: Input[],
-    submitButton: Button
+    submitButton: Button,
 }
 
 export default class Form extends Block<Props> {
