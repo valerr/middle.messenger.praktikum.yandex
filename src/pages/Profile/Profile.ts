@@ -7,6 +7,10 @@ import Form from "../../components/form/form";
 import Input from "../../components/input/input";
 import { fields } from "../Register/Register";
 import ButtonLink from "../../components/button/ButtonLink";
+import AuthController from "../../controllers/AuthController";
+import Router from "../../utils/Router";
+import UserController from "../../controllers/UserController";
+import {User} from "../../api/UserAPI";
 
 const info = {
     first_name: {
@@ -45,16 +49,22 @@ export const changeProfile = new ChangeProfile({
     className: 'change-profile',
     form: new Form({
         fields,
-        events: {
-            'submit': (event: Event) => {
-                event.preventDefault();
-                const data = new FormData(event.target as HTMLFormElement);
-                console.log(Object.fromEntries(data));
+        onSubmit: (event: Event) => {
+            event.preventDefault();
+            const data = new FormData(event.target as HTMLFormElement);
+            console.log(Object.fromEntries(data));
 
-                const inputs = document.querySelectorAll('input');
-                const valid = [...inputs].every(elem => validate(elem.name, elem.value));
-                console.log('valid:', valid);
-            },
+            const inputs = document.querySelectorAll('input');
+            const valid = [...inputs].every(elem => validate(elem.name, elem.value));
+            return valid ? Object.fromEntries(data) : false;
+        },
+        controller: (data) => {
+            UserController
+                .update(data as User)
+                .then(() => {
+                    Router.go('/profile')
+                })
+                .catch(e => console.log(e))
         },
         inputs: Object.keys(fields).map(key => new Input({
             id: key,
@@ -76,7 +86,7 @@ export const changeProfile = new ChangeProfile({
     }),
     chatsButton: new ButtonLink({
         className: 'back-button',
-        path: '/chats'
+        path: '/messenger'
     })
 })
 
@@ -84,11 +94,15 @@ const Profile = new Page({
     template,
     chatsButton: new ButtonLink({
         className: 'back-button',
-        path: '/chats'
+        path: '/messenger'
     }),
-    logOutButton: new ButtonLink({
+    logOutButton: new Button({
         text: 'Log out',
-        path: '/login'
+        events: {
+            'click': () => {
+                AuthController.logout().then(() => Router.go('/'))
+            }
+        }
     }),
     ChangeProfileButton: new ButtonLink({
         text: 'Edit profile',

@@ -6,31 +6,40 @@ import {validate, validateInputElement} from "../../utils/validate";
 import Input from "../../components/input/input";
 import ButtonLink from "../../components/button/ButtonLink";
 import Router from "../../utils/Router";
+import AuthController from "../../controllers/AuthController";
 
 export const fields = {
     login: 'Login',
     password: 'Password'
 }
 
-const Login = new Page({
+export default new Page({
     template,
     registerButton: new ButtonLink({
         text: 'Create account',
         className: 'secondary-button',
-        path: '/register',
+        path: '/sign-up',
     }),
     form: new Form({
         fields,
-        events: {
-            'submit': (event: Event) => {
-                event.preventDefault();
-                const data = new FormData(event.target as HTMLFormElement);
-                console.log(Object.fromEntries(data));
+        onSubmit: (event: Event) => {
+            event.preventDefault();
+            const data = new FormData(event.target as HTMLFormElement);
+            console.log(Object.fromEntries(data));
 
-                const inputs = document.querySelectorAll('input');
-                const valid = [...inputs].every(elem => validate(elem.name, elem.value));
-                if (valid) Router.go('/chats')
-            },
+            const inputs = document.querySelectorAll('input');
+            const valid = [...inputs].every(elem => validate(elem.name, elem.value));
+            return valid ? Object.fromEntries(data) : false;
+        },
+        controller: (data) => {
+            AuthController
+                .signin(data)
+                .then(() => {
+                    Router.go('/messenger')
+                })
+                .catch((e: Error) => {
+                    console.log(e)
+                })
         },
         inputs: Object.keys(fields).map(key => new Input({
             id: key,
@@ -50,6 +59,4 @@ const Login = new Page({
             type: 'submit',
         }),
     }),
-})
-
-export default Login;
+});

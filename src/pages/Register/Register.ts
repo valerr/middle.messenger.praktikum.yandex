@@ -6,6 +6,9 @@ import {validate, validateInputElement} from "../../utils/validate";
 import Form from "../../components/form/form";
 import Router from "../../utils/Router";
 import ButtonLink from "../../components/button/ButtonLink";
+import AuthController from "../../controllers/AuthController";
+import {SignupData} from "../../api/AuthAPI";
+import UserController from "../../controllers/UserController";
 
 export const fields = {
     first_name: 'First name',
@@ -20,16 +23,24 @@ const Register = new Page({
     template,
     form: new Form({
         fields,
-        events: {
-          'submit': (event: Event) => {
-              event.preventDefault();
-              const data = new FormData(event.target as HTMLFormElement);
-              console.log(Object.fromEntries(data));
+        onSubmit: (event: Event) => {
+            event.preventDefault();
+            const data = new FormData(event.target as HTMLFormElement);
+            console.log(Object.fromEntries(data));
 
-              const inputs = document.querySelectorAll('.login-form input');
-              const valid = [...inputs].every((elem: HTMLInputElement) => validate(elem.name, elem.value));
-              if (valid) Router.go('/chats')
-          },
+            const inputs = document.querySelectorAll('#register input');
+            const valid = [...inputs].every((elem: HTMLInputElement) => validate(elem.name, elem.value));
+            return valid ? Object.fromEntries(data) : false;
+        },
+        controller: (data: SignupData) => {
+            UserController
+                .update(data)
+                .then(() => {
+                    Router.go('/profile')
+                })
+                .catch((e: Error) => {
+                    console.log(e)
+                })
         },
         inputs: Object.keys(fields).map(key => new Input({
             id: key,

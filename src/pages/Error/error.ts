@@ -8,7 +8,7 @@ export const Page404 = new Page({
     message: "Something went wrong",
     BackButton: new ButtonLink({
         text: 'Back to chats',
-        path: '/chats'
+        path: '/messenger'
     })
 })
 
@@ -18,6 +18,6 @@ export const Page500 = new Page({
     message: "Internal Server Error",
     BackButton: new ButtonLink({
         text: 'Back to chats',
-        path: '/chats'
+        path: '/messenger'
     })
 })

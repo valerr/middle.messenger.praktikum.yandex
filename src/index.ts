@@ -6,21 +6,48 @@ import Register from "./pages/Register/Register";
 import { Page404, Page500 } from "./pages/Error/error";
 import Chats from "./pages/Chats/Chats";
 import Router from "./utils/Router";
+import AuthController from "./controllers/AuthController";
 
 enum routes {
     Main ='/',
     Login = '/login',
     Profile = '/profile',
-    Register = '/register',
+    Register = '/sign-up',
     Page404 = '/404',
     Page500 = '/500',
-    Chats = '/chats',
+    Chats = '/messenger',
     Settings = '/settings'
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    let isProtectedRoute = true;
+
+    switch (window.location.pathname) {
+        case routes.Main:
+        case routes.Register:
+            isProtectedRoute = false;
+            break;
+    }
+
+    let user;
+        try {
+            user = await AuthController.fetchUser();
+
+            if (!isProtectedRoute) {
+                Router.go(routes.Chats)
+            }
+
+            if ((window.location.pathname === '/' && user) || (window.location.pathname === 'sign-up' && user)) {
+                Router.go('/messenger')
+            }
+        } catch (e) {
+            if (isProtectedRoute) {
+                Router.go(routes.Main);
+            }
+        }
+
     Router
-        .use(routes.Main, MainPage)
+        .use(routes.Main, Login)
         .use(routes.Login, Login)
         .use(routes.Register, Register)
         .use(routes.Profile, Profile)
