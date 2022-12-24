@@ -9,15 +9,14 @@ class UserController {
 
     async update(data: User) {
         await this.api.update(data);
-        // store??
     }
 
     async updatePassword(data: Password) {
         await this.api.updatePassword(data);
     }
 
-    async updateAvatar(avatar) { // TODO
-        // return await this.api.updateAvatar(avatar);
+    async updateAvatar(avatar) {
+        return await this.api.updateAvatar(avatar);
     }
 
 }

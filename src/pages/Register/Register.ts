@@ -19,52 +19,60 @@ export const fields = {
     password: 'Password'
 }
 
-const Register = new Page({
-    template,
-    form: new Form({
-        fields,
-        onSubmit: (event: Event) => {
-            event.preventDefault();
-            const data = new FormData(event.target as HTMLFormElement);
-            console.log(Object.fromEntries(data));
+class Register extends Page {
+    constructor(props) {
+        super({...props, template});
+    }
 
-            const inputs = document.querySelectorAll('#register input');
-            const valid = [...inputs].every((elem: HTMLInputElement) => validate(elem.name, elem.value));
-            return valid ? Object.fromEntries(data) : false;
-        },
-        controller: (data: SignupData) => {
-            UserController
-                .update(data)
-                .then(() => {
-                    Router.go('/profile')
-                })
-                .catch((e: Error) => {
-                    console.log(e)
-                })
-        },
-        inputs: Object.keys(fields).map(key => new Input({
-            id: key,
-            name: key,
-            events : {
-                'blur': ({ target }: Event) => {
-                    validateInputElement(key, target as HTMLInputElement);
-                },
-                'focus': ({ target }: Event) => {
-                    validateInputElement(key, target as HTMLInputElement);
-                },
-            }
-        })),
-        submitButton: new Button({
-            text: 'Register',
-            className: 'primary-button',
-            type: 'submit',
-        }),
-    }),
-    signInButton: new ButtonLink({
-        text: 'Sign in',
-        className: 'secondary-button',
-        path: '/login'
-    }),
-})
+    init() {
+        this.children!.form = new Form({
+            fields,
+            onSubmit: (event: Event) => {
+                event.preventDefault();
+                const data = new FormData(event.target as HTMLFormElement);
+
+                const inputs = document.querySelectorAll('#register input');
+                const valid = [...inputs].every((elem: HTMLInputElement) => validate(elem.name, elem.value));
+                return valid ? Object.fromEntries(data) : false;
+            },
+            controller: (data: SignupData) => {
+                AuthController
+                    .signup(data)
+                    .then(() => {
+                        Router.go('/messenger')
+                    })
+                    .catch((e: Error) => {
+                        console.log(e)
+                    })
+            },
+            inputs: Object.keys(fields).map(key => new Input({
+                id: key,
+                name: key,
+                events : {
+                    'blur': ({ target }: Event) => {
+                        validateInputElement(key, target as HTMLInputElement);
+                    },
+                    'focus': ({ target }: Event) => {
+                        validateInputElement(key, target as HTMLInputElement);
+                    },
+                }
+            })),
+            submitButton: new Button({
+                text: 'Register',
+                className: 'primary-button',
+                type: 'submit',
+            }),
+        })
+
+        this.children!.signInButton = new ButtonLink({
+            text: 'Sign in',
+            className: 'secondary-button',
+            path: '/login'
+        })
+
+        super.init();
+    }
+
+}
 
 export default Register;

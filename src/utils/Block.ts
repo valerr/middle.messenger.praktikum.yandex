@@ -104,12 +104,12 @@ export default abstract class Block<P extends Props = any> {
 
     _render() {
         const block = this.render();
-        this.element?.append(block);
 
         if (this._element) {
+            this._element.innerHTML = '';
             this.removeEvents();
         }
-
+        this.element?.append(block);
         this.addEvents();
     }
 

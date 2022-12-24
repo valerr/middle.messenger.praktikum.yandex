@@ -11,6 +11,7 @@ function isEqual(lhs: string, rhs: string) {
 function render(selector: string, block: Block) {
     const root = document.querySelector(selector);
     if (!root) return;
+    root.innerHTML = '';
 
     root.append(block.getContent()!);
     return root;
@@ -44,12 +45,10 @@ export default class Route {
 
     render() {
         if (!this._block) {
-            // this._block = new this._blockClass({});
-            this._block = this._blockClass
-            render(this.rootQuery, this._block);
-            return;
+            this._block = new this._blockClass({});
         }
 
+        render(this.rootQuery, this._block);
         this._block.show();
     }
 }

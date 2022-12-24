@@ -1,116 +1,108 @@
-import Page from "../Page";
 import Button from "../../components/button/Button";
 import template from './profile.tmpl';
-import ChangeProfile from "../../components/profile/ChangeProfile";
-import {validate, validateInputElement} from "../../utils/validate";
-import Form from "../../components/form/form";
-import Input from "../../components/input/input";
-import { fields } from "../Register/Register";
 import ButtonLink from "../../components/button/ButtonLink";
 import AuthController from "../../controllers/AuthController";
 import Router from "../../utils/Router";
-import UserController from "../../controllers/UserController";
-import {User} from "../../api/UserAPI";
+import store, {withStore} from "../../utils/Store";
+import Block from "../../utils/Block";
+import Field from "../../components/profile/Field";
+import Avatar from "../../components/profile/Avatar";
 
-const info = {
-    first_name: {
+const info = [
+    {
         key: 'First name',
         name: 'first_name',
-        value: 'Firstname'
     },
-    second_name: {
+    {
         key: 'Last name',
         name: 'second_name',
-        value: 'Lastname'
     },
-    display_name: {
+    {
         key: 'Display name',
         name: 'display_name',
-        value: 'Name'
     },
-    login: {
+    {
         key: 'Login',
         name: 'login',
-        value: '@login'
     },
-    email: {
+    {
         key: 'Email',
         name: 'email',
-        value: 'email@mail.mail'
     },
-    phone: {
+    {
         key: 'Phone',
         name: 'phone',
-        value: '123456789'
     },
+]
+
+
+type Props = Record <string, any>
+class Profile extends Block<Props> {
+    constructor(props) {
+        super('main', {...props, info, name: store.getState().user.first_name});
+    }
+
+    render() {
+        return this.compile(template, this.props);
+    }
+
+    init() {
+        this.children.chatsButton = new ButtonLink({
+            className: 'back-button',
+            path: '/messenger'
+        })
+
+        this.children.logOutButton = new Button({
+            text: 'Log out',
+            events: {
+                'click': () => {
+                    AuthController.logout().then(() => Router.go('/'))
+                }
+            }
+        })
+        this.children.ChangeProfileButton = new ButtonLink({
+            text: 'Edit profile',
+            className: 'profile-editing',
+            path: '/settings'
+        })
+        this.children.fields = info.map(({ name, value }) => new Field({
+            className: 'info-item',
+            name,
+            value
+        }))
+        this.children.changePassword = new ButtonLink({
+            text: 'Change password',
+            path: '/settings/password'
+        });
+        this.children.avatar = new Avatar({});
+
+        AuthController
+            .fetchUser()
+            .then(() => this.userUpdated())
+            .catch(e => console.log(e))
+        super.init()
+    }
+
+    userUpdated() {
+        const { user } = store.getState();
+        if (user.avatar) {
+            this.element.querySelector('.profile-image').innerHTML = `<img src=https://ya-praktikum.tech/api/v2/resources${user.avatar}>`
+        }
+    }
+
+    protected componentDidUpdate(oldProps, newProps): boolean {
+        (newProps?.user && this.children.fields)?.forEach((field, i) => {
+            field.setProps({  value: newProps?.user[info[i].name] });
+        });
+
+        return false;
+    }
 }
 
-export const changeProfile = new ChangeProfile({
-    className: 'change-profile',
-    form: new Form({
-        fields,
-        onSubmit: (event: Event) => {
-            event.preventDefault();
-            const data = new FormData(event.target as HTMLFormElement);
-            console.log(Object.fromEntries(data));
 
-            const inputs = document.querySelectorAll('input');
-            const valid = [...inputs].every(elem => validate(elem.name, elem.value));
-            return valid ? Object.fromEntries(data) : false;
-        },
-        controller: (data) => {
-            UserController
-                .update(data as User)
-                .then(() => {
-                    Router.go('/profile')
-                })
-                .catch(e => console.log(e))
-        },
-        inputs: Object.keys(fields).map(key => new Input({
-            id: key,
-            name: key,
-            events : {
-                'blur': ({ target }: Event) => {
-                    validateInputElement(key, target as HTMLInputElement);
-                },
-                'focus': ({ target }: Event) => {
-                    validateInputElement(key, target as HTMLInputElement);
-                },
-            }
-        })),
-        submitButton: new Button({
-            text: 'Save',
-            className: 'primary-button',
-            type: 'submit',
-        }),
-    }),
-    chatsButton: new ButtonLink({
-        className: 'back-button',
-        path: '/messenger'
-    })
-})
+const profileWithStore = withStore((state) => ({
+    user: state.user
+}))
 
-const Profile = new Page({
-    template,
-    chatsButton: new ButtonLink({
-        className: 'back-button',
-        path: '/messenger'
-    }),
-    logOutButton: new Button({
-        text: 'Log out',
-        events: {
-            'click': () => {
-                AuthController.logout().then(() => Router.go('/'))
-            }
-        }
-    }),
-    ChangeProfileButton: new ButtonLink({
-        text: 'Edit profile',
-        className: 'profile-editing',
-        path: '/settings'
-    }),
-    info,
-    name: 'Name',
-})
+export default profileWithStore(Profile)
 
-export default Profile;

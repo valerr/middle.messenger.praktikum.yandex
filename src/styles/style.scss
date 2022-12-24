@@ -50,7 +50,6 @@ button {
 
   form {
     display: flex;
-    height: 100%;
     flex-grow: 1;
     flex-flow: wrap row;
   }
@@ -103,8 +102,12 @@ button {
   box-shadow: 0 0 6px #00000024;
 }
 
-.change-profile {
+#profile .change-profile {
   @extend .login-form; /* stylelint-disable-line */
+  padding: 0;
+  .profile-content {
+    width: unset;
+  }
 }
 
 input + .error-message {
@@ -331,6 +334,14 @@ input + .error-message {
       border-radius: 50%;
       background: $search-bg;
       margin-bottom: 21px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+      }
     }
 
     .profile-info {
