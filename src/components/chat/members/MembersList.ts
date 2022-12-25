@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Block from "../../../utils/Block";
 import template from './members-list.tmpl';
 import Member from "./Member";
@@ -5,12 +6,15 @@ import Button from "../../button/Button";
 import Modal from "../../modal/modal";
 import Input from "../../input/input";
 import ChatController from "../../../controllers/ChatController";
+import store from "../../../utils/Store";
+import {User} from "../../../api/UserAPI";
 
 export interface Props {
     className?: string,
     type?: string,
     text?: string,
     events?: Record<string, (arg: Event) => void>,
+    users?: []
 }
 
 export default class MembersList extends Block<Props> {
@@ -20,20 +24,20 @@ export default class MembersList extends Block<Props> {
     }
 
     init() {
-        this.children.addUserModal = new Modal({
+        this.children!.addUserModal = new Modal({
             title: 'Add user',
             className: 'add-user-modal',
-            input: new Input({ name: 'userId', className: "mt-auto" }),
+            input: new Input({ name: 'userId', className: "mt-auto", placeholder: 'user id' }),
             submit: new Button({
                 text: 'Add', // TODO search by login
                 events: {
                     'click': (event) => {
-                        const userId = event.currentTarget.previousElementSibling.value;
+                        const userId = ((event.currentTarget as HTMLElement)!.previousElementSibling as HTMLInputElement).value;
                         const currentChat = store.getState().currentChat.id;
                         ChatController
-                            .addUser(currentChat, userId)
+                            .addUser(currentChat, +userId)
                             .then(() => {
-                                this.children.addChatModal.hide()
+                                this.children!.addChatModal.hide()
                             })
                             .catch(e => console.log(e))
                     }
@@ -41,12 +45,12 @@ export default class MembersList extends Block<Props> {
             })
         })
 
-        this.children.addButton = new Button({
+        this.children!.addButton = new Button({
             text: '+',
             className: 'fw-bold d-flex ml-auto',
             events: {
                 'click': () => {
-                    this.children.addUserModal.show();
+                    this.children!.addUserModal.show();
                 }
             }
         })
@@ -62,10 +66,10 @@ export default class MembersList extends Block<Props> {
     componentDidUpdate(_oldProps: Props, _newProps: Props): boolean {
         if (this.props.users) {
             const usersContainer = this.element.querySelector('.users-list')
-            usersContainer.innerHTML = '';
+            usersContainer!.innerHTML = '';
             this.props.users
-                .map(item => new Member({ name: item.login, id: item.id }))
-                .forEach(element => usersContainer.append(element.getContent()))
+                .map((item: User) => new Member({ name: item.login, id: item.id }))
+                .forEach(element => usersContainer!.append(element.getContent()))
         }
         return false;
     }

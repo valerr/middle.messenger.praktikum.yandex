@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Block from "../../utils/Block";
 import settingsTemplate from "./change-profile.tmpl";
 import store from "../../utils/Store";
@@ -13,7 +14,7 @@ import ButtonLink from "../../components/button/ButtonLink";
 
 type Props = Record <string, any>
 export default class Settings extends Block<Props> {
-    constructor(props) {
+    constructor(props: Props) {
         super('main', {
             ...props,
             template: settingsTemplate,
@@ -23,7 +24,7 @@ export default class Settings extends Block<Props> {
         const userData = store.getState().user;
 
         const { password, ...rest } = fields;
-        this.children.form = new Form({
+        this.children!.form = new Form({
             fields: rest,
             onSubmit: (event: Event) => {
                 event.preventDefault();
@@ -35,7 +36,7 @@ export default class Settings extends Block<Props> {
             },
             controller: (data) => {
                 UserController
-                    .update(data as User)
+                    .update(data as unknown as User)
                     .then(() => {
                         Router.go('/profile')
                     })
@@ -60,16 +61,15 @@ export default class Settings extends Block<Props> {
                 type: 'submit',
             }),
         })
-        this.children.chatsButton = new ButtonLink({
+        this.children!.chatsButton = new ButtonLink({
             className: 'back-button',
             path: '/messenger'
         })
-        this.children.changeAvatar = new Input({
-            text: 'Upload photo',
+        this.children!.changeAvatar = new Input({
             type: 'file',
             events: {
                 'change': (event) => {
-                    const data = event.target.files[0];
+                    const data = (event.target as HTMLInputElement).files![0];
                     const formData = new FormData();
                     formData.set('avatar', data, data.name);
 

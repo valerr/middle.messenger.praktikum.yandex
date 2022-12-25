@@ -1,9 +1,10 @@
+/* eslint-disable no-prototype-builtins */
 export type Indexed<T = any> = {
     [key in string]: T;
 };
 
 export function merge(lhs: Indexed, rhs: Indexed): Indexed {
-    for (let p in rhs) {
+    for (const p in rhs) {
         if (!rhs.hasOwnProperty(p)) {
             continue;
         }

@@ -1,10 +1,14 @@
 import Block from "../../utils/Block";
 import template from './modal.tmpl';
 import Button from "../button/Button";
+import Input from "../input/input";
 
 export interface Props {
     className?: string,
     events?: Record<string, (arg: Event) => void>,
+    title: string,
+    input?: Input,
+    submit: Button
 }
 
 export default class Modal extends Block<Props> {
@@ -13,7 +17,7 @@ export default class Modal extends Block<Props> {
         this.element!.className = props.className || '';
         this.element.classList.add('modal');
         this.element.style.display = 'none'
-        this.children.closeButton = new Button({
+        this.children!.closeButton = new Button({
             text: 'Close',
             events: {
                 'click': () => this.hide()

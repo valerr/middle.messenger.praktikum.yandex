@@ -38,7 +38,7 @@ const info = [
 
 type Props = Record <string, any>
 class Profile extends Block<Props> {
-    constructor(props) {
+    constructor(props: Props) {
         super('main', {...props, info, name: store.getState().user.first_name});
     }
 
@@ -47,12 +47,12 @@ class Profile extends Block<Props> {
     }
 
     init() {
-        this.children.chatsButton = new ButtonLink({
+        this.children!.chatsButton = new ButtonLink({
             className: 'back-button',
             path: '/messenger'
         })
 
-        this.children.logOutButton = new Button({
+        this.children!.logOutButton = new Button({
             text: 'Log out',
             events: {
                 'click': () => {
@@ -60,21 +60,21 @@ class Profile extends Block<Props> {
                 }
             }
         })
-        this.children.ChangeProfileButton = new ButtonLink({
+        this.children!.ChangeProfileButton = new ButtonLink({
             text: 'Edit profile',
             className: 'profile-editing',
             path: '/settings'
         })
-        this.children.fields = info.map(({ name, value }) => new Field({
+        // @ts-ignore
+        this.children!.fields = info.map(({ name }) => new Field({
             className: 'info-item',
             name,
-            value
         }))
-        this.children.changePassword = new ButtonLink({
+        this.children!.changePassword = new ButtonLink({
             text: 'Change password',
             path: '/settings/password'
         });
-        this.children.avatar = new Avatar({});
+        this.children!.avatar = new Avatar({});
 
         AuthController
             .fetchUser()
@@ -86,13 +86,14 @@ class Profile extends Block<Props> {
     userUpdated() {
         const { user } = store.getState();
         if (user.avatar) {
-            this.element.querySelector('.profile-image').innerHTML = `<img src=https://ya-praktikum.tech/api/v2/resources${user.avatar}>`
+            this.element.querySelector('.profile-image')!
+                .innerHTML = `<img src=https://ya-praktikum.tech/api/v2/resources${user.avatar}>`
         }
     }
 
-    protected componentDidUpdate(oldProps, newProps): boolean {
-        (newProps?.user && this.children.fields)?.forEach((field, i) => {
-            field.setProps({  value: newProps?.user[info[i].name] });
+    componentDidUpdate(_oldProps: Props, newProps: Props): boolean {
+        (newProps?.user && this.children!.fields)?.forEach((field: Field, i: number) => {
+            field.setProps({ value: newProps?.user[info[i].name] });
         });
 
         return false;
@@ -104,5 +105,6 @@ const profileWithStore = withStore((state) => ({
     user: state.user
 }))
 
+// @ts-ignore
 export default profileWithStore(Profile)
 

@@ -8,7 +8,6 @@ import Router from "../../utils/Router";
 import ButtonLink from "../../components/button/ButtonLink";
 import AuthController from "../../controllers/AuthController";
 import {SignupData} from "../../api/AuthAPI";
-import UserController from "../../controllers/UserController";
 
 export const fields = {
     first_name: 'First name',
@@ -19,8 +18,9 @@ export const fields = {
     password: 'Password'
 }
 
+type Props = Record <string, any>
 class Register extends Page {
-    constructor(props) {
+    constructor(props: Props) {
         super({...props, template});
     }
 
@@ -35,9 +35,9 @@ class Register extends Page {
                 const valid = [...inputs].every((elem: HTMLInputElement) => validate(elem.name, elem.value));
                 return valid ? Object.fromEntries(data) : false;
             },
-            controller: (data: SignupData) => {
+            controller: (data) => {
                 AuthController
-                    .signup(data)
+                    .signup(data as unknown as SignupData)
                     .then(() => {
                         Router.go('/messenger')
                     })

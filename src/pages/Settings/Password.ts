@@ -7,14 +7,16 @@ import Router from "../../utils/Router";
 import Input from "../../components/input/input";
 import Button from "../../components/button/Button";
 import UserController from "../../controllers/UserController";
+import { Password as PasswordType } from "../../api/UserAPI";
 
+type Props = Record <string, any>
 class Password extends Page {
-    constructor(props) {
+    constructor(props: Props) {
         super({...props, template});
     }
 
     init() {
-        this.children.form = new Form({
+        this.children!.form = new Form({
             fields: { oldPassword: 'Old password', newPassword: 'New password' },
             onSubmit: (event: Event) => {
                 event.preventDefault();
@@ -26,7 +28,7 @@ class Password extends Page {
             },
             controller: (data) => {
                 UserController
-                    .updatePassword(data)
+                    .updatePassword(data as unknown as PasswordType)
                     .then(() => {
                         Router.go('/profile')
                     })
@@ -50,7 +52,7 @@ class Password extends Page {
                 type: 'submit',
             }),
         })
-        this.children.chatsButton = new ButtonLink({
+        this.children!.chatsButton = new ButtonLink({
             className: 'back-button',
             path: '/messenger'
         })

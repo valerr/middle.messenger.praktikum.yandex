@@ -1,6 +1,5 @@
 import './styles/style.scss';
 import Login from './pages/Login/Login';
-import MainPage from './pages/Main/MainPage';
 import Profile from "./pages/Profile/Profile";
 import Settings from "./pages/Settings/Settings";
 import Password from "./pages/Settings/Password";
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     Router.start();
 
-    if (!Object.values(routes).includes(window.location.pathname)) {
+    if (!(Object.values(routes) as string[]).includes(window.location.pathname)) {
         Router.go(routes.Page404)
     }
 })

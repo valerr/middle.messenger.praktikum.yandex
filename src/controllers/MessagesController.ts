@@ -65,13 +65,13 @@ class MessagesController {
         Array.from(this.sockets.values()).forEach(socket => socket.close());
     }
 
-    private onMessage(id: number, messages: Message | Message[]) {
+    private onMessage(id: number, messages: unknown) {
         let messagesToAdd: Message[] = [];
 
         if (Array.isArray(messages)) {
             messagesToAdd = messages.reverse();
         } else {
-            messagesToAdd.push(messages);
+            messagesToAdd.push(<Message>messages);
         }
 
         const currentMessages = (store.getState().messages || {})[id] || [];
@@ -86,7 +86,9 @@ class MessagesController {
     }
 
     private subscribe(transport: WSTransport, id: number) {
-        transport.on(WSTransportEvents.Message, (message) => this.onMessage(id, message));
+        transport.on(WSTransportEvents.Message, (message) => {
+            this.onMessage(id, message)
+        });
         transport.on(WSTransportEvents.Close, () => this.onClose(id));
     }
 }

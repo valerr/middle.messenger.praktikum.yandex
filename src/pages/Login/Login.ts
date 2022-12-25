@@ -7,24 +7,26 @@ import Input from "../../components/input/input";
 import ButtonLink from "../../components/button/ButtonLink";
 import Router from "../../utils/Router";
 import AuthController from "../../controllers/AuthController";
+import {SigninData} from "../../api/AuthAPI";
 
 export const fields = {
     login: 'Login',
     password: 'Password'
 }
 
+type Props = Record <string, any>
 class Login extends Page {
-    constructor(props) {
+    constructor(props: Props) {
         super({...props, template});
     }
 
     init() {
-        this.children.registerButton = new ButtonLink({
+        this.children!.registerButton = new ButtonLink({
             text: 'Create account',
             className: 'secondary-button',
             path: '/sign-up',
         })
-       this.children.form = new Form({
+       this.children!.form = new Form({
             fields,
             onSubmit: (event: Event) => {
                 event.preventDefault();
@@ -36,7 +38,7 @@ class Login extends Page {
             },
             controller: (data) => {
                 AuthController
-                    .signin(data)
+                    .signin(data as unknown as SigninData)
                     .then(() => {
                         AuthController
                             .fetchUser()

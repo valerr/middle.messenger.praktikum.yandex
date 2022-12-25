@@ -2,6 +2,15 @@ import API, { ChatAPI } from "../api/ChatAPI";
 import store from "../utils/Store";
 import MessagesController from "./MessagesController";
 
+export interface Chat {
+    id: number,
+    title: string,
+    avatar: string | null,
+    created_by: number,
+    unread_count: number,
+    last_message: Record<string, string>,
+}
+
 class ChatController {
     private readonly api: ChatAPI;
 
@@ -12,18 +21,19 @@ class ChatController {
     async getChats() {
         const chats = await this.api.read();
 
-        JSON.parse(chats).map(async (chat) => {
-            const token = await this.getToken(chat.id);
+        if (typeof chats === "string") {
+            JSON.parse(chats).map(async (chat: { id: number; }) => {
+                const token = await this.getToken(chat.id);
 
-            await MessagesController.connect(chat.id, token);
-        });
-
-        store.set('chats', JSON.parse(chats));
+                await MessagesController.connect(chat.id, token);
+            });
+            store.set('chats', JSON.parse(chats));
+        }
     }
 
     async getChatUsers(id: number) {
         const users = await this.api.getChatUsers(id);
-        return JSON.parse(users);
+        return JSON.parse(users as unknown as string);
     }
 
     async getToken(id: number) {
@@ -33,10 +43,6 @@ class ChatController {
     async addChat(name: string) {
         await this.api.addChat(name);
         await this.getChats();
-    }
-
-    async deleteChat(id: number) {
-        await this.api.deleteChat(id);
     }
 
     async addUser(id: number, user: number) {

@@ -5,6 +5,8 @@ export interface Props {
     className?: string,
     text?: string,
     events?: Record<string, (arg: Event) => void>,
+    message: string,
+    incoming?: boolean
 }
 
 export default class Message extends Block<Props> {

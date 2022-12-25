@@ -42,7 +42,7 @@ export class AuthAPI {
         return this.http.post('/auth/signup', { data, headers: this.headers });
     }
 
-    read(): Promise<User> {
+    read() {
         return this.http.get('/auth/user');
     }
 

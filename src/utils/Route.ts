@@ -1,7 +1,8 @@
 import Block from "./Block";
 
+type Props = Record <string, any>
 export interface BlockConstructable<P = any> {
-    new(props: P): Block<P>;
+    new(props: P): Block<Props>;
 }
 
 function isEqual(lhs: string, rhs: string) {
@@ -22,7 +23,7 @@ export default class Route {
 
     constructor(
         private _pathname: string,
-        private readonly _blockClass: Block,
+        private readonly _blockClass: BlockConstructable,
         private readonly rootQuery: string) {
     }
 

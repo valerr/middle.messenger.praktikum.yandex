@@ -1,6 +1,11 @@
 import Route from "./Route";
 import Block from "./Block";
 
+type Props = Record <string, any>
+export interface BlockConstructable<P = any> {
+    new(props: P): Block<Props>;
+}
+
 class Router {
     private static __instance: Router;
     private routes: Route[] = [];
@@ -17,7 +22,7 @@ class Router {
         Router.__instance = this;
     }
 
-    use(pathname: string, block: Block) {
+    use(pathname: string, block: BlockConstructable) {
         const route = new Route(pathname, block, this._rootQuery);
         this.routes.push(route);
         return this

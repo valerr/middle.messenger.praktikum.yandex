@@ -31,7 +31,7 @@ export class ChatAPI {
     async getToken(id: number): Promise<string> {
         const response = await this.http.post(`/chats/token/${id}`, { mode: 'cors', credentials: "include" });
 
-        return JSON.parse(response).token;
+        return JSON.parse(response as unknown as string).token;
     }
 }
 

@@ -15,7 +15,7 @@ class UserController {
         await this.api.updatePassword(data);
     }
 
-    async updateAvatar(avatar) {
+    async updateAvatar(avatar: FormData) {
         return await this.api.updateAvatar(avatar);
     }
 

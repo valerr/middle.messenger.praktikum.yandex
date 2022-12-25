@@ -3,8 +3,9 @@ import template from './field.tmpl';
 
 export interface Props {
     className?: string,
-    name: string,
+    name?: string,
     events?: Record<string, (arg: Event) => void>,
+    value?: string
 }
 
 export default class Field extends Block<Props> {

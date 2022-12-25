@@ -12,6 +12,8 @@ interface Options {
     headers?: Record<string, string>,
     data?: any,
     timeout?: number,
+    mode?: string,
+    credentials?: string
 }
 
 type HTTPMethod = (url: string, options?: Options, timeout?: number) => Promise<XMLHttpRequest | Response>
@@ -38,7 +40,9 @@ export default class HTTPTransport {
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
-            xhr.open(method, method === METHODS.get && !!data ? `${url}${queryStringify(data)}` : url);
+            if (method != null) {
+                xhr.open(method, method === METHODS.get && !!data ? `${url}${queryStringify(data)}` : url);
+            }
 
             xhr.timeout = timeout;
             Object.keys(headers).forEach(header => xhr.setRequestHeader(header, headers[header]))
@@ -47,7 +51,7 @@ export default class HTTPTransport {
                 resolve(xhr);
             };
 
-            xhr.onreadystatechange = (e) => {
+            xhr.onreadystatechange = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status <= 400) {
                         resolve(xhr.response);

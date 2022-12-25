@@ -18,7 +18,7 @@ class AuthController {
 
     async fetchUser() {
         const user = await this.api.read();
-        store.set('user', JSON.parse(user))
+        store.set('user', JSON.parse(user as unknown as string))
         return user;
     }
 

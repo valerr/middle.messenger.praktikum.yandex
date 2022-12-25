@@ -32,7 +32,7 @@ export class UserAPI {
         return this.http.put('/user/password', { data, headers: this.headers });
     }
 
-    updateAvatar(data) {
+    updateAvatar(data: FormData) {
         return this.http.put('/user/profile/avatar', { data });
     }
 
