@@ -5,7 +5,6 @@ type Props = Record <string, any>
 export default class Page extends Block<Props> {
     constructor(props: Props) {
         super('main', props);
-        this.element!.className = props.className;
     }
 
     render() {

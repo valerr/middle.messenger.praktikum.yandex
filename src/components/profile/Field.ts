@@ -1,19 +1,17 @@
 import Block from "../../utils/Block";
-import template from './button.tmpl';
+import template from './field.tmpl';
 
 export interface Props {
     className?: string,
-    type?: string,
-    text?: string,
+    name?: string,
     events?: Record<string, (arg: Event) => void>,
+    value?: string
 }
 
-export default class Button extends Block<Props> {
+export default class Field extends Block<Props> {
     constructor(props: Props) {
-        super('button', props);
+        super('div', props);
         this.element!.className = props.className || '';
-        this.element!.setAttribute('type', this.props.type || 'button')
-
     }
 
     render(): DocumentFragment {

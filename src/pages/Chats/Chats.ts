@@ -1,44 +1,94 @@
 import Page from "../Page";
-import Button from "../../components/button/Button";
 import template from './chats.tmpl';
 import ChatItem from "../../components/chat/ChatItem";
 import Chat from "../../components/chat/Chat";
+import ButtonLink from "../../components/button/ButtonLink";
+import store, {withStore} from "../../utils/Store";
+import ChatController, { Chat as ChatType } from "../../controllers/ChatController";
+import Button from "../../components/button/Button";
+import Modal from "../../components/modal/modal";
+import Input from "../../components/input/input";
 
-const chats = [
-    {
-        name: 'Name',
-        message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-    },
-    {
-        name: 'Name2',
-        message: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
+type Props = Record <string, any>
+class Chats extends Page {
+    constructor(props: Props) {
+        super({...props, template});
     }
-]
+
+    init() {
+        this.children!.ProfileButton = new ButtonLink({
+          text: 'Profile',
+          className: 'secondary-button profile-button text-muted',
+          path: '/profile'
+        })
+        this.children!.addChatButton = new Button({
+            text: 'Add chat',
+            className: 'add-chat-button',
+            events: {
+                'click': () => {
+                    this.children!.addChatModal.show();
+                }
+            }
+        })
+        this.children!.addChatModal = new Modal({
+            className: 'add-chat-modal',
+            title: 'Add chat',
+            input: new Input({}),
+            submit: new Button({
+                text: 'Add',
+                className: 'primary-button mt-auto',
+                events: {
+                    'click': (event: Event) => {
+                        const title = ((event.target as HTMLElement)!.previousElementSibling as HTMLInputElement)!.value;
+                        title && ChatController
+                            .addChat(title)
+                            .then(() => {
+                                this.children!.addChatModal.hide();
+                                this.chatsUpdated()
+                            })
+                            .catch(e => console.log(e))
+                    }
+                }
+            })
+        })
 
 
-const Chats = new Page({
-    template,
-    ProfileButton: new Button({
-        text: 'Profile',
-        className: 'secondary-button profile-button text-muted',
-        events: {
-            'click': () => location.href=`${location.origin}/profile`
-        },
-    }),
-    ChatItems: chats.map(item => new ChatItem({
-        name: item.name,
-        message: item.message,
-    })),
-    chat: new Chat({
+        const title = store.getState().currentChat?.title;
+        this.children!.chat = new Chat({
         className: 'chat-container',
-        user: {
-            name: 'UserName',
-        },
-        messages: [
-            'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui o',
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'
-        ]
+        title,
+        selfId: store.getState().user?.id,
     })
-})
 
-export default Chats;
+        ChatController
+            .getChats()
+            .then(() => this.chatsUpdated())
+            .catch(e => console.log(e))
+        super.init();
+    }
+
+    chatsUpdated() {
+        const { chats } = store.getState();
+        if (!chats) return;
+        this.children!.ChatItems = chats.map((item: ChatType) => new ChatItem({
+            name: item.title,
+            message: item.last_message?.content || ' ',
+            events: {
+                'click': (event: Event) => {
+                    event.stopPropagation();
+                    store.set('currentChat', {...item })
+                }
+            }
+        }))
+    }
+
+
+}
+
+const chatsWithStore = withStore((state) => ({
+    user: state.user,
+    chats: state.chats,
+}))
+
+// @ts-ignore
+export default chatsWithStore(Chats);

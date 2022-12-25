@@ -1,7 +1,7 @@
 export default class EventBus {
     private readonly listeners: Record<string, Array<(...args: unknown[]) => void>> = {};
 
-    on(event: string, callback: () => void) {
+    on(event: string, callback: (...args: unknown[]) => void) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
@@ -10,21 +10,13 @@ export default class EventBus {
     }
 
     off(event: string, callback: () => void) {
-        if (!this.listeners[event]) {
-            throw new Error(`Event ${event} not found`);
-        }
-
         this.listeners[event] = this.listeners[event].filter(
             listener => listener !== callback
         );
     }
 
     emit(event: string, ...args: unknown[]) {
-        if (!this.listeners[event]) {
-            throw new Error(`Event ${event} not found`);
-        }
-
-        this.listeners[event].forEach(function(listener) {
+        this.listeners[event]?.forEach(function(listener) {
             listener(...args);
         });
     }
