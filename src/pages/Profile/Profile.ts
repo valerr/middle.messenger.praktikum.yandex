@@ -39,7 +39,7 @@ const info = [
 type Props = Record <string, any>
 class Profile extends Block<Props> {
     constructor(props: Props) {
-        super('main', {...props, info, name: store.getState().user.first_name});
+        super('main', {...props, info, name: store.getState().user!.first_name});
     }
 
     render() {
@@ -66,9 +66,9 @@ class Profile extends Block<Props> {
             path: '/settings'
         })
         // @ts-ignore
-        this.children!.fields = info.map(({ name }) => new Field({
+        this.children!.fields = info.map(({ key }) => new Field({
             className: 'info-item',
-            name,
+            name: key,
         }))
         this.children!.changePassword = new ButtonLink({
             text: 'Change password',
@@ -85,9 +85,9 @@ class Profile extends Block<Props> {
 
     userUpdated() {
         const { user } = store.getState();
-        if (user.avatar) {
+        if (user!.avatar) {
             this.element.querySelector('.profile-image')!
-                .innerHTML = `<img src=https://ya-praktikum.tech/api/v2/resources${user.avatar}>`
+                .innerHTML = `<img src=https://ya-praktikum.tech/api/v2/resources${user!.avatar}>`
         }
     }
 

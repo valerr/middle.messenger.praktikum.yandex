@@ -19,7 +19,7 @@ export default class Member extends Block<Props> {
             text: 'Remove',
             events: {
                 'click': () => {
-                    const currentChatId = store.getState().currentChat.id;
+                    const currentChatId = store.getState().currentChat!.id as unknown as number;
                     ChatController
                         .deleteUser(currentChatId, this.props.id)
                 }

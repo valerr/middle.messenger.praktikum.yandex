@@ -179,19 +179,22 @@ input + .error-message {
       align-items: center;
       padding: 10px;
       box-sizing: border-box;
-
-      &::before {
-        content: "";
-        display: block;
-        background: $border-color;
-        min-width: 47px;
-        height: 47px;
-        border-radius: 50%;
-      }
+      position: relative;
 
       .chat-item-text {
         padding: 10px;
         overflow: hidden;
+      }
+
+      .remove-chat {
+        position: absolute;
+        right: 15px;
+        visibility: hidden;
+      }
+      &:hover {
+        .remove-chat {
+          visibility: visible;
+        }
       }
     }
 
@@ -295,6 +298,7 @@ input + .error-message {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    overflow: auto;
 
     .message {
       max-width: 300px;
@@ -327,6 +331,11 @@ input + .error-message {
 
     input {
       flex-grow: 1;
+
+      &.invalid {
+        border: 1px solid $danger;
+        margin: 0 5px;
+      }
     }
 
     button {
@@ -358,6 +367,7 @@ input + .error-message {
   background: white;
   padding: 12px;
   box-sizing: border-box;
+  z-index: 2;
 
   h4 {
     margin: 0;

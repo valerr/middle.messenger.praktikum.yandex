@@ -21,16 +21,16 @@ type HTTPMethod = (url: string, options?: Options, timeout?: number) => Promise<
 export default class HTTPTransport {
     BASE_URL = "https://ya-praktikum.tech/api/v2";
 
-    get: HTTPMethod = (url: string, options: Options = {}) => {
+    get: HTTPMethod = (url, options = {}) => {
         return this.request(this.BASE_URL + url, {...options, method: METHODS.get}, options.timeout);
     };
-    put: HTTPMethod = (url: string, options: Options) => {
+    put: HTTPMethod = (url, options = {}) => {
         return this.request(this.BASE_URL + url, {...options, method: METHODS.put}, options.timeout);
     };
-    post: HTTPMethod = (url: string, options: Options = {}): Promise<XMLHttpRequest | Response> => {
+    post: HTTPMethod = (url, options = {}): Promise<XMLHttpRequest | Response> => {
         return this.request(this.BASE_URL + url, {...options, method: METHODS.post}, options.timeout);
     };
-    delete: HTTPMethod = (url: string, options: Options): Promise<XMLHttpRequest | Response> => {
+    delete: HTTPMethod = (url, options = {}): Promise<XMLHttpRequest | Response> => {
         return this.request(this.BASE_URL + url, {...options, method: METHODS.delete}, options.timeout);
     };
 

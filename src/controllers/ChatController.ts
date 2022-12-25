@@ -1,6 +1,7 @@
 import API, { ChatAPI } from "../api/ChatAPI";
 import store from "../utils/Store";
 import MessagesController from "./MessagesController";
+import Router from "../utils/Router";
 
 export interface Chat {
     id: number,
@@ -22,18 +23,28 @@ class ChatController {
         const chats = await this.api.read();
 
         if (typeof chats === "string") {
-            JSON.parse(chats).map(async (chat: { id: number; }) => {
-                const token = await this.getToken(chat.id);
+            try {
+                JSON.parse(chats).map(async (chat: { id: number; }) => {
+                    const token = await this.getToken(chat.id);
 
-                await MessagesController.connect(chat.id, token);
-            });
-            store.set('chats', JSON.parse(chats));
+                    await MessagesController.connect(chat.id, token);
+                });
+                store.set('chats', JSON.parse(chats));
+            } catch (e) {
+                console.log(e)
+                Router.go('/');
+            }
         }
     }
 
     async getChatUsers(id: number) {
         const users = await this.api.getChatUsers(id);
-        return JSON.parse(users as unknown as string);
+        try {
+            return JSON.parse(users as unknown as string);
+        } catch (e) {
+            console.log(e)
+            Router.go('/');
+        }
     }
 
     async getToken(id: number) {
@@ -51,6 +62,10 @@ class ChatController {
 
     async deleteUser(id: number, user: number) {
         await this.api.deleteUser(id, user);
+    }
+
+    async deleteChat(id: number) {
+        await this.api.deleteChat(id);
     }
 
 }

@@ -18,15 +18,20 @@ class AuthController {
 
     async fetchUser() {
         const user = await this.api.read();
-        store.set('user', JSON.parse(user as unknown as string))
+        try {
+            store.set('user', JSON.parse(user as unknown as string))
+        } catch (e) {
+            console.log(e);
+        }
+
         return user;
     }
 
     async logout() {
         try {
             await this.api.logout();
-        } catch (e: any) {
-            console.error(e.message);
+        } catch (e) {
+            console.error(e);
         }
     }
 }

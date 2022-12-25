@@ -1,4 +1,5 @@
 import HTTPTransport from "../utils/HTTPTransport";
+import Router from "../utils/Router";
 
 export class ChatAPI {
     protected http = new HTTPTransport();
@@ -28,10 +29,22 @@ export class ChatAPI {
         return this.http.delete('/chats/users', { data: { users: [user], chatId: id }, headers: this.headers })
     }
 
+    deleteChat(id: number) {
+        return this.http.delete('/chats/', { data: { chatId: id }, headers: this.headers })
+    }
+
     async getToken(id: number): Promise<string> {
         const response = await this.http.post(`/chats/token/${id}`, { mode: 'cors', credentials: "include" });
 
-        return JSON.parse(response as unknown as string).token;
+        let token;
+        try {
+            token = JSON.parse(response as unknown as string).token;
+        } catch (e) {
+            console.log(e)
+            Router.go('/');
+        }
+
+        return token;
     }
 }
 

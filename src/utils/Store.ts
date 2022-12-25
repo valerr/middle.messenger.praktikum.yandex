@@ -9,13 +9,14 @@ export enum StoreEvents {
 }
 
 interface State {
-    user: User;
-    chats: [],
-    currentChat: Record<string, Chat>
+    user?: User;
+    chats?: [],
+    currentChat?: Record<string, Chat>,
+    messages?: Record<string, []>
 }
 
 export class Store extends EventBus {
-    private state: any = {};
+    private state: State = {};
 
     public set(keypath: string, data: unknown) {
         set(this.state, keypath, data);

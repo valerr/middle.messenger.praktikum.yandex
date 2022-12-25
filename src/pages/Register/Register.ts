@@ -12,6 +12,7 @@ import {SignupData} from "../../api/AuthAPI";
 export const fields = {
     first_name: 'First name',
     second_name: 'Last name',
+    display_name: 'Display name',
     login: 'Login',
     email: 'Email',
     phone: 'Phone',

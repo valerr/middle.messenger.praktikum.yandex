@@ -33,12 +33,10 @@ export default class MembersList extends Block<Props> {
                 events: {
                     'click': (event) => {
                         const userId = ((event.currentTarget as HTMLElement)!.previousElementSibling as HTMLInputElement).value;
-                        const currentChat = store.getState().currentChat.id;
+                        const currentChat = store.getState().currentChat!.id;
+                        this.children!.addUserModal.hide()
                         ChatController
-                            .addUser(currentChat, +userId)
-                            .then(() => {
-                                this.children!.addChatModal.hide()
-                            })
+                            .addUser(currentChat as unknown as number, +userId)
                             .catch(e => console.log(e))
                     }
                 }

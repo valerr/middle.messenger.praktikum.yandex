@@ -7,9 +7,12 @@ export default `<div id="chats">
             </div>
             
 <!--            <div class="search">Search</div>-->
-            {{#each ChatItems}}
-                {{{this}}}
-            {{/each}}
+            <div class="chats-container">
+                {{#each ChatItems}}
+                    {{{this}}}
+                {{/each}}
+            </div>
+            
 
         </div>
         {{{ chat }}}

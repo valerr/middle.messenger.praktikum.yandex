@@ -70,14 +70,27 @@ class Chats extends Page {
     chatsUpdated() {
         const { chats } = store.getState();
         if (!chats) return;
+        this.element.querySelector('.chats-container')!.innerHTML = '';
+
+        // @ts-ignore
         this.children!.ChatItems = chats.map((item: ChatType) => new ChatItem({
             name: item.title,
             message: item.last_message?.content || ' ',
+            id: item.id,
             events: {
                 'click': (event: Event) => {
                     event.stopPropagation();
                     store.set('currentChat', {...item })
                 }
+            },
+            removeChat: (id) => {
+                ChatController
+                    .deleteChat(id)
+                    .then(() => {
+                        ChatController.getChats()
+                            .then(() => this.chatsUpdated())
+                    })
+                    .catch(e => console.log(e))
             }
         }))
     }
