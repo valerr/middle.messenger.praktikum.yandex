@@ -1,27 +1,34 @@
 import Page from "../Page";
-import Button from "../../components/button/Button";
 import template from './error.tmpl';
+import ButtonLink from "../../components/button/ButtonLink";
 
-export const Page404 = new Page({
-    template,
-    code: '404',
-    message: "Something went wrong",
-    BackButton: new Button({
+type Props = Record <string, any>
+export class Page404 extends Page {
+    constructor(props: Props) {
+        super({
+            ...props,
+            template,
+            code: '404',
+            message: "Something went wrong",
+        });
+        this.children!.BackButton = new ButtonLink({
         text: 'Back to chats',
-        events: {
-            'click': () => location.href=`${location.origin}/chats`,
-        }
+        path: '/messenger'
     })
-})
+    }
+}
 
-export const Page500 = new Page({
-    template,
-    code: '500',
-    message: "Internal Server Error",
-    BackButton: new Button({
-        text: 'Back to chats',
-        events: {
-            'click': () => location.href=`${location.origin}/chats`,
-        }
-    })
-})
+export class Page500 extends Page {
+    constructor(props: Props) {
+        super({
+            ...props,
+            template,
+            code: '500',
+            message: "Internal Server Error",
+        })
+        this.children!.BackButton = new ButtonLink({
+            text: 'Back to chats',
+            path: '/messenger'
+        })
+    }
+}

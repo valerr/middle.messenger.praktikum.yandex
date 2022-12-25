@@ -1,10 +1,18 @@
 export default `<div id="chats">
         <div class="chats-list">
             {{{ ProfileButton }}}
-            <div class="search">Search</div>
-            {{#each ChatItems}}
-                {{{this}}}
-            {{/each}}
+            <div class="add-chat">
+                {{{ addChatButton }}}
+                {{{ addChatModal }}}
+            </div>
+            
+<!--            <div class="search">Search</div>-->
+            <div class="chats-container">
+                {{#each ChatItems}}
+                    {{{this}}}
+                {{/each}}
+            </div>
+            
 
         </div>
         {{{ chat }}}

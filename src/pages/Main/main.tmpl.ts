@@ -7,10 +7,10 @@ export default `<div class="pages">
                         <a href="./login">Sign in</a>
                     </li>
                     <li>
-                        <a href="./register">Register</a>
+                        <a href="./sign-up">Register</a>
                     </li>
                     <li>
-                        <a href="./chats">Chats</a>
+                        <a href="./messenger">Chats</a>
                     </li>
                     <li>
                         <a href="./profile">Profile</a>
