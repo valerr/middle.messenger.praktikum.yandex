@@ -2,6 +2,7 @@ import EventBus from "./EventBus";
 // @ts-ignore
 import HandleBars from 'handlebars';
 import { v4 as uuid } from "uuid";
+import {isEqual} from "./helpers";
 
 type Props = Record <string, any>
 type Children = Record <string, Block>
@@ -87,7 +88,7 @@ export default abstract class Block<P extends Props = any> {
     }
 
     componentDidUpdate(_oldProps: P, _newProps: P) {
-        return _oldProps !== _newProps;
+        return !isEqual(_oldProps, _newProps)
     }
 
     setProps = (nextProps: P) => {
@@ -162,8 +163,9 @@ export default abstract class Block<P extends Props = any> {
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target, prop, value) {
+                const oldValue = { ...target };
                 target[prop] = value;
-                self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
+                self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldValue, target);
                 return true;
             },
             deleteProperty() {

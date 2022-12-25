@@ -36,11 +36,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             user = await AuthController.fetchUser();
 
-            if (!isProtectedRoute) {
-                Router.go(routes.Chats)
+            if (isProtectedRoute) {
+                if (user) {
+                    Router.go(routes.Chats)
+                } else {
+                    Router.go(routes.Login)
+                }
             }
 
-            if ((window.location.pathname === '/' && user) || (window.location.pathname === 'sign-up' && user)) {
+            if ((window.location.pathname === '/' && user) || (window.location.pathname === '/sign-up' && user)) {
                 Router.go(routes.Chats)
             }
         } catch (e) {

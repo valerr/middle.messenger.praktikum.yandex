@@ -1,6 +1,7 @@
 export default `<div class="chat-content">
-            <div class="header fw-bold">
-                {{user.name}}
+            <div class=" header fw-bold">
+                <div class="chat-title">{{title}}</div>
+                {{{ membersButton }}}
             </div>
             <div class="messages">
                     {{#each messages}}
@@ -8,7 +9,8 @@ export default `<div class="chat-content">
                     {{/each}}
             </div>
              <div class="message-input mt-auto">
-                <input name="message">
-                <button></button>
+                {{{ input }}}
+                {{{ sendButton }}}
             </div>
-        </div>`
+        </div>
+        {{{ members }}}`

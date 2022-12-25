@@ -5,17 +5,9 @@ import Chat from "../../components/chat/Chat";
 import ButtonLink from "../../components/button/ButtonLink";
 import store, {withStore} from "../../utils/Store";
 import ChatController from "../../controllers/ChatController";
-
-const chats = [
-    {
-        name: 'Name',
-        message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
-    },
-    {
-        name: 'Name2',
-        message: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
-    }
-]
+import Button from "../../components/button/Button";
+import Modal from "../../components/modal/modal";
+import Input from "../../components/input/input";
 
 class Chats extends Page {
     constructor(props) {
@@ -28,20 +20,43 @@ class Chats extends Page {
           className: 'secondary-button profile-button text-muted',
           path: '/profile'
         })
-        this.children.ChatItems = chats.map(item => new ChatItem({
-          name: item.name,
-          message: item.message,
-        }))
-        const userName = store.getState().user.display_name || store.getState().user.first_name;
+        this.children.addChatButton = new Button({
+            text: 'Add chat',
+            className: 'add-chat-button',
+            events: {
+                'click': () => {
+                    this.children.addChatModal.show();
+                }
+            }
+        })
+        this.children.addChatModal = new Modal({
+            className: 'add-chat-modal',
+            title: 'Add chat',
+            input: new Input({}),
+            submit: new Button({
+                text: 'Add',
+                className: 'primary-button mt-auto',
+                events: {
+                    'click': (event) => {
+                        const title = event.target.previousElementSibling.value
+                        title && ChatController
+                            .addChat(title)
+                            .then(() => {
+                                this.children.addChatModal.hide();
+                                this.chatsUpdated()
+                            })
+                            .catch(e => console.log(e))
+                    }
+                }
+            })
+        })
+
+
+        const title = store.getState().currentChat?.title;
         this.children.chat = new Chat({
         className: 'chat-container',
-        user: {
-            name: userName,
-        },
-        messages: [
-            'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui o',
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'
-        ]
+        title,
+        selfId: store.getState().user?.id,
     })
 
         ChatController
@@ -52,15 +67,27 @@ class Chats extends Page {
     }
 
     chatsUpdated() {
-        const { chats } = store.getState().chats;
-
+        const { chats } = store.getState();
+        if (!chats) return;
+        this.children.ChatItems = chats.map(item => new ChatItem({
+            name: item.title,
+            chat: item,
+            message: item.last_message?.content || ' ',
+            events: {
+                'click': (event) => {
+                    event.stopPropagation();
+                    store.set('currentChat', {...item})
+                }
+            }
+        }))
     }
 
 
 }
 
 const chatsWithStore = withStore((state) => ({
-    user: state.user
+    user: state.user,
+    chats: state.chats,
 }))
 
 export default chatsWithStore(Chats);
