@@ -1,14 +1,14 @@
 import Block from "../../utils/Block";
-import template from './change-profile.tmpl';
-import Form from "../form/form";
+import template from './field.tmpl';
 
-interface Props {
+export interface Props {
     className?: string,
+    name?: string,
     events?: Record<string, (arg: Event) => void>,
-    form: Form
+    value?: string
 }
 
-export default class ChangeProfile extends Block<Props> {
+export default class Field extends Block<Props> {
     constructor(props: Props) {
         super('div', props);
         this.element!.className = props.className || '';
