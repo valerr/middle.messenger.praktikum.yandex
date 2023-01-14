@@ -66,6 +66,7 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
     for (const [key, value] of Object.entries(lhs)) {
         const rightValue = rhs[key];
         if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+            // @ts-ignore
             if (isEqual(value, rightValue)) {
                 continue;
             }

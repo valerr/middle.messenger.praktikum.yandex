@@ -73,7 +73,6 @@ export default class HTTPTransport {
                 xhr.send(JSON.stringify(data));
             }
 
-
         });
     };
 }
