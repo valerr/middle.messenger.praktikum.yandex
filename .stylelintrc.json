@@ -6,6 +6,7 @@
   "rules": {
     "import-notation": null,
     "color-hex-case": "upper",
-    "color-hex-length": null
+    "color-hex-length": null,
+    "no-descending-specificity": null
   }
 }

@@ -37,6 +37,10 @@ button {
   color: white;
 }
 
+input {
+  border-bottom: 1px solid $primary;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -104,7 +108,9 @@ button {
 
 #profile .change-profile {
   @extend .login-form; /* stylelint-disable-line */
+
   padding: 0;
+
   .profile-content {
     width: unset;
   }
@@ -191,6 +197,7 @@ input + .error-message {
         right: 15px;
         visibility: hidden;
       }
+
       &:hover {
         .remove-chat {
           visibility: visible;
@@ -285,7 +292,7 @@ input + .error-message {
       box-sizing: border-box;
 
       .members-button::before {
-        content: '';
+        content: "";
         display: block;
         width: 24px;
         height: 24px;
@@ -372,10 +379,6 @@ input + .error-message {
   h4 {
     margin: 0;
   }
-}
-
-input {
-  border-bottom: 1px solid $primary;
 }
 
 #profile {
