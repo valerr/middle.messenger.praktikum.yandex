@@ -84,6 +84,10 @@ class Chats extends Page {
                 }
             },
             removeChat: (id) => {
+                if (store.getState().currentChat?.id as unknown as number === id) {
+                    store.set('currentChat', null);
+                }
+
                 ChatController
                     .deleteChat(id)
                     .then(() => {

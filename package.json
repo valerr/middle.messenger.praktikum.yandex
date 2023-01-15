@@ -14,8 +14,15 @@
   "license": "ISC",
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all test lint:all"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.(js|ts|scss)": [
+      "npm run test",
+      "npm run lint",
+      "npm run lint-styles"
+    ]
   },
   "devDependencies": {
     "@types/chai": "4.3.4",
@@ -32,7 +39,7 @@
     "eslint-config-airbnb": "19.0.4",
     "handlebars": "4.7.7",
     "html-webpack-plugin": "5.5.0",
-    "husky": "^8.0.3",
+    "husky": "8.0.3",
     "jsdom": "21.0.0",
     "mocha": "10.2.0",
     "proxyquire": "2.1.3",
